@@ -1,1 +1,1 @@
-# InheritX-UI
+# InheritX
