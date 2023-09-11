@@ -1,0 +1,104 @@
+type AddUserDetails = variant { userExists : bool; success : bool };
+type CreateWillArgs = variant { icrc : ICRCCreateWillArgs };
+type GetHeirWills = variant { wills : vec Will; noWillsExists : bool };
+type GetTestatorWills = variant {
+  userNotExists : bool;
+  wills : vec Will;
+  noWillsExists : bool;
+};
+type GetUserDetails = variant {
+  userDetails : UserDetails;
+  userNotExists : bool;
+};
+type ICRCClaimWill = variant {
+  ckbtcClaimResult : _InlineICRCClaimWillCkbtcClaimResult;
+  isClaimed : bool;
+  claimError : text;
+  tokenTickerNotSupported : bool;
+  icpClaimResult : _InlineICRCClaimWillIcpClaimResult;
+};
+type ICRCCreateWill = variant {
+  identifierUsed : bool;
+  tokenTickerNotSupported : text;
+  success : bool;
+  userNotExists : bool;
+};
+type ICRCCreateWillArgs = record {
+  heirs : principal;
+  willName : text;
+  tokenTicker : text;
+  identifier : nat32;
+  amount : nat;
+};
+type ICRCDeleteWill = variant { errorMessage : text; success : bool };
+type ManualReply = variant {
+  icrc : ICRCClaimWill;
+  claimError : bool;
+  willNotExists : bool;
+  unAuthorizedClaimer : bool;
+  willTypeNotSupported : bool;
+};
+type ManualReply_1 = variant {
+  icrc : ICRCCreateWill;
+  userNotExists : bool;
+  willTypeNotSupported : bool;
+};
+type ManualReply_2 = variant {
+  identifierUsed : bool;
+  icrc : ICRCDeleteWill;
+  unAuthorizedTestator : bool;
+  willNotExists : bool;
+  userNotExists : bool;
+  willTypeNotSupported : bool;
+};
+type UpdateUserDetails = variant { success : bool; userNotExists : bool };
+type UserDetails = record {
+  sex : text;
+  "principal" : principal;
+  birthDate : text;
+  birthLocationCode : text;
+  firstNames : vec text;
+  lastName : text;
+};
+type Will = record {
+  heirs : principal;
+  value : nat;
+  willName : text;
+  timeStamp : nat64;
+  testator : principal;
+  isClaimed : bool;
+  tokenTicker : text;
+  identifier : nat32;
+};
+type _InlineICRCClaimWillCkbtcClaimResult = record {
+  success : bool;
+  claimCKBTCMessage : text;
+};
+type _InlineICRCClaimWillIcpClaimResult = record {
+  claimICPMessage : text;
+  success : bool;
+};
+type userDetailsArgs = record {
+  sex : text;
+  birthDate : text;
+  birthLocationCode : text;
+  firstNames : vec text;
+  lastName : text;
+};
+service : () -> {
+  add_user_details : (userDetailsArgs) -> (AddUserDetails);
+  canisterBalance : () -> (nat64) query;
+  claim_will : (nat32, text) -> (ManualReply);
+  create_will : (CreateWillArgs, text) -> (ManualReply_1);
+  delete_will : (nat32, text) -> (ManualReply_2);
+  get_all_identifiers : () -> (vec record { nat32; principal }) query;
+  get_all_wills : () -> (vec record { nat32; Will }) query;
+  get_icrc_canister_id : () -> (text) query;
+  get_user_details : () -> (GetUserDetails) query;
+  get_will_canister_id : () -> (principal) query;
+  get_wills_for_heir : () -> (GetHeirWills) query;
+  get_wills_for_testator : () -> (GetTestatorWills) query;
+  request_random_will_identifier : () -> (nat32);
+  set_icrc_canister_id : (text) -> (text);
+  update_user_details : (userDetailsArgs) -> (UpdateUserDetails);
+}
