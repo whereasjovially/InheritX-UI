@@ -1,0 +1,20 @@
+{
+  "providers": {
+    "ic": ""
+  },
+  "icrc": {
+    "ic": ""
+  },
+  "will": {
+    "ic": ""
+  },
+  "btc": {
+    "ic": ""
+  },
+  "icp_ledger": {
+    "ic": ""
+  },
+  "ckbtc_ledger": {
+    "ic": ""
+  }
+}

@@ -2,7 +2,7 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 
-import WillList from "@/components/MyWills/WillList";
+import WillList from "@/components/myWills/WillList";
 
 function Portfolio() {
   const searchParams = useSearchParams();

@@ -3,11 +3,11 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 
-const Layout = dynamic(() => import("@/components/Layout/Layout"), {
+const Layout = dynamic(() => import("@/components/layout/Layout"), {
   // Do not import in server side
   ssr: false,
 });
-import Providers from "@/components/Providers/Providers";
+import Providers from "@/components/providers/Providers";
 import dynamic from "next/dynamic";
 
 const inter = Inter({ subsets: ["latin"] });

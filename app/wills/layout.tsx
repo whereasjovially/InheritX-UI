@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import React from "react";
 
-const ProfileNav = dynamic(() => import("@/components/MyProfile/ProfileNav"), {
+const ProfileNav = dynamic(() => import("@/components/myProfile/ProfileNav"), {
   // Do not import in server side
   ssr: false,
 });
