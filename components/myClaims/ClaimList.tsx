@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import {
+  AbsoluteCenter,
   Box,
   Button,
+  Center,
   FormControl,
   FormLabel,
   Icon,
@@ -14,96 +16,92 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spacer,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
   Td,
   Th,
   Thead,
+  Tooltip,
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { MdOutlineDelete } from "react-icons/md";
+import { BsFillPatchExclamationFill } from "react-icons/bs";
+import { IoIosExpand } from "react-icons/io";
+import { useHeirs, useTestator } from "@/hooks/will";
+import { principalAtom } from "@/state/jotai";
+import { useAtom } from "jotai";
+import { truncatePrincipal } from "@/utils/utils";
 function ClaimList() {
-  const [show, setShow] = useState<any>(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [heirsWills, isLoading, error] = useHeirs();
+  const [principal, setPrincipal] = useAtom(principalAtom);
 
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
-
-  return (
-    <>
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>First name</FormLabel>
-              <Input ref={initialRef} placeholder="First name" />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Last name</FormLabel>
-              <Input placeholder="Last name" />
-            </FormControl>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-      <Box className="mt-0 shadow">
-        <TableContainer>
-          <Table colorScheme="teal">
-            {/* <TableCaption>List of Asset In a Given Portfolio</TableCaption> */}
-            <Thead>
-              <Tr>
-                <Th>Name</Th>
-                <Th>TIcker</Th>
-                <Th>Price</Th>
-                <Th>Action</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr>
-                <Td>
-                  <Link
-                    href={`/asset?name=${"portfolio_1"}&asset_name=${"ICP"}`}
-                  >
-                    Internet Computer
-                  </Link>
-                </Td>
-                <Td>ICP</Td>
-                <Td>30.48</Td>
-                <Td>
-                  <Icon as={MdOutlineDelete} />
-                </Td>
-              </Tr>
-            </Tbody>
-            {/* <Tfoot>
-            <Tr>
-              <Th>To convert</Th>
-              <Th>into</Th>
-              <Th isNumeric>multiply by</Th>
-            </Tr>
-          </Tfoot> */}
-          </Table>
-        </TableContainer>
-      </Box>
-    </>
-  );
+  if (isLoading) {
+    return (
+      <AbsoluteCenter>
+        <Spinner size="xl" />
+      </AbsoluteCenter>
+    );
+  } else if (heirsWills?.length === 0 || !heirsWills) {
+    return (
+      <>
+        <AbsoluteCenter>
+          <p className="text-sm font-medium leading-none text-white">
+            <Icon
+              fontSize="16"
+              color={"white"}
+              as={BsFillPatchExclamationFill}
+            />
+            No Wills To Claim
+          </p>
+        </AbsoluteCenter>
+      </>
+    );
+  } else if (heirsWills?.length > 0 && heirsWills) {
+    return (
+      <>
+        <Box className="mt-0 shadow">
+          <TableContainer>
+            <Table colorScheme="teal">
+              {/* <TableCaption>List of Asset In a Given Portfolio</TableCaption> */}
+              <Thead>
+                <Tr>
+                  <Th>Sno</Th>
+                  <Spacer />
+                  <Th>UID</Th>
+                  <Spacer />
+                  <Th>Principal</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {heirsWills.map((item, index) => (
+                  <Tr key={index + 1}>
+                    {" "}
+                    <Td>
+                      {/* <Link href={`/asset?name=${item.name}&asset_name=${item.asset_name}`}> */}
+                      {index + 1}
+                      {/* </Link> */}
+                    </Td>{" "}
+                    <Spacer />
+                    <Td>{item}</Td> <Spacer />
+                    <Td>{truncatePrincipal(principal!, 5)}</Td> <Spacer />
+                    <Td>
+                      <Link href={`/claims/claim?id=${item}`}>
+                        <Icon as={IoIosExpand} />
+                      </Link>{" "}
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </>
+    );
+  }
 }
 
 export default ClaimList;

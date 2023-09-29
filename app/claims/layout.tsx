@@ -3,16 +3,16 @@
 import dynamic from "next/dynamic";
 import React from "react";
 
-const ProfileNav = dynamic(() => import("@/components/myProfile/ProfileNav"), {
+const ClaimNav = dynamic(() => import("@/components/myClaims/ClaimNav"), {
   // Do not import in server side
   ssr: false,
 });
-function PortfolioRootLayout({ children }: { children: React.ReactNode }) {
+function ClaimRootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <ProfileNav>{children}</ProfileNav>
+      <ClaimNav>{children}</ClaimNav>
     </>
   );
 }
 
-export default PortfolioRootLayout;
+export default ClaimRootLayout;

@@ -1,7 +1,7 @@
 "use client ";
 
 import { useUser } from "@/hooks/user";
-import { isProfileFormOpen, isUserExistsAtom } from "@/state/jotai";
+import { isProfileFormOpenAtom, isUserExistsAtom } from "@/state/jotai";
 import {
   AbsoluteCenter,
   Box,
@@ -17,7 +17,7 @@ import { PiUserPlus } from "react-icons/pi";
 import { ProfileForm } from "./ProfileForm";
 
 function CreateProfile() {
-  const [isOpen, setOpen] = useAtom(isProfileFormOpen);
+  const [isOpen, setOpen] = useAtom(isProfileFormOpenAtom);
 
   const openForm = () => {
     setOpen(true);
@@ -42,7 +42,7 @@ function CreateProfile() {
 }
 
 function EditInformation({ children }: { children: React.ReactNode }) {
-  const [isOpen, setOpen] = useAtom(isProfileFormOpen);
+  const [isOpen, setOpen] = useAtom(isProfileFormOpenAtom);
 
   const openForm = () => {
     setOpen(true);

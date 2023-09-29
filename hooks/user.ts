@@ -1,10 +1,6 @@
 import { WILL } from "@/configs/canistersService";
 import {
-  AddUserDetails,
   GetUserDetails,
-  UpdateUserDetails,
-  UserDetails,
-  userDetailsArgs,
 } from "@/declarations/will/will.did";
 import { createActor } from "@/services/createActor";
 import {
@@ -16,7 +12,6 @@ import {
   principalAtom,
   sexAtom,
 } from "@/state/jotai";
-import { showTopToast } from "@/utils/toast";
 import { useToast } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
@@ -47,7 +42,7 @@ export function useUser() {
         toast({
           title: "Account created.",
           description:
-            "We've created your account for you." + JSON.stringify(err),
+             JSON.stringify(err),
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -57,7 +52,7 @@ export function useUser() {
     fetchUserDetails();
   }, []);
 
-  return [isUserExists, isLoading, error];
+  return [isUserExists, isLoading, error] as const;
 }
 
 // export function useProfileSubmit(userDetails: userDetailsArgs) {
@@ -244,5 +239,5 @@ export function useUserInfo() {
     birthLocationCode,
     isLoading,
     error,
-  ];
+  ] as const;
 }

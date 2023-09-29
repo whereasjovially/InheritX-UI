@@ -79,10 +79,7 @@ export interface _SERVICE {
   'get_will_canister_id' : ActorMethod<[], string>,
   'hex_address_from_principal' : ActorMethod<[Principal, number], string>,
   'icp_transfer' : ActorMethod<[number, Principal], ManualReply_1>,
-  'icrc_ckbtc_transfer' : ActorMethod<
-    [number, Principal, bigint],
-    ManualReply_2
-  >,
+  'icrc_ckbtc_transfer' : ActorMethod<[number, Principal], ManualReply_2>,
   'icrc_icp_balanceOf' : ActorMethod<[number], ManualReply_3>,
   'icrc_icp_fee' : ActorMethod<[], ManualReply_3>,
   'icrc_icp_transfer' : ActorMethod<[number, Principal], ManualReply_4>,

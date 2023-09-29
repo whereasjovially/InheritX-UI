@@ -3,15 +3,16 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 
 import ClaimList from "@/components/myClaims/ClaimList";
+import ClaimDetails from "@/components/myClaims/ClaimDetails";
 
-function Claim() {
+function ClaimInfo() {
   const searchParams = useSearchParams();
   const search = searchParams.get("name");
 
   return (
     <>
-      <ClaimList />
+      <ClaimDetails/>
     </>
   );
 }
-export default Claim;
+export default ClaimInfo;

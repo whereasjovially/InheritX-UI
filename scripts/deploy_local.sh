@@ -50,8 +50,10 @@ echo $ckBtcVar >>.env
 if [[ $ENV == "local" ]]; then
 
     echo "Switching the deployment to local replica"
-
-    yarn build
+    dfx canister uninstall-code avqkn-guaaa-aaaaa-qaaea-cai
+    dfx canister stop avqkn-guaaa-aaaaa-qaaea-cai
+    dfx canister delete avqkn-guaaa-aaaaa-qaaea-cai
+    # yarn build
     dfx deploy inheritX --specified-id avqkn-guaaa-aaaaa-qaaea-cai
 
     exit 0

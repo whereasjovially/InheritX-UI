@@ -1,8 +1,8 @@
 "use client";
 
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export default function GlobalError({
   error,
@@ -13,7 +13,7 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body >
         <h2>{error.message}</h2>
         <button onClick={() => reset()}>Try again</button>
       </body>

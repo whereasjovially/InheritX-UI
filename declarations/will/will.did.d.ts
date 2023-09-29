@@ -80,6 +80,8 @@ export interface Will {
   'tokenTicker' : string,
   'identifier' : number,
 }
+export type _AzleResult = { 'Ok' : Will } |
+  { 'Err' : string };
 export interface _InlineICRCClaimWillCkbtcClaimResult {
   'success' : boolean,
   'claimCKBTCMessage' : string,
@@ -104,6 +106,10 @@ export interface userDetailsArgs {
   'lastName' : string,
 }
 export interface _SERVICE {
+  'add_identifier_to_mapping' : ActorMethod<
+    [Principal, Principal, number],
+    undefined
+  >,
   'add_user_details' : ActorMethod<[userDetailsArgs], AddUserDetails>,
   'bitcoin_get_balance' : ActorMethod<[string], bigint>,
   'canisterBalance' : ActorMethod<[], bigint>,
@@ -114,15 +120,30 @@ export interface _SERVICE {
   'get_all_identifiers' : ActorMethod<[], Array<[number, Principal]>>,
   'get_all_wills' : ActorMethod<[], Array<[number, Will]>>,
   'get_all_willsT' : ActorMethod<[], Array<[Principal, Array<number>]>>,
+  'get_heirs_wills_by_princicpal' : ActorMethod<
+    [Principal],
+    [] | [Uint32Array | number[]]
+  >,
   'get_icrc_canister_id' : ActorMethod<[], string>,
+  'get_testator_wills_by_princicpal' : ActorMethod<
+    [Principal],
+    [] | [Uint32Array | number[]]
+  >,
+  'get_user_by_princicpal' : ActorMethod<[Principal], string>,
   'get_user_details' : ActorMethod<[], GetUserDetails>,
+  'get_will' : ActorMethod<[number], _AzleResult>,
   'get_will_canister_id' : ActorMethod<[], Principal>,
-  'get_willsT' : ActorMethod<[Principal], Array<number>>,
+  'get_willsC' : ActorMethod<[], Array<number>>,
+  'get_willsT' : ActorMethod<[], Array<number>>,
   'get_wills_for_heir' : ActorMethod<[], GetHeirWills>,
   'get_wills_for_testator' : ActorMethod<[], GetTestatorWills>,
   'is_user_principal_found' : ActorMethod<[], boolean>,
   'is_will_exists_heirs' : ActorMethod<[], boolean>,
   'is_will_exists_testator' : ActorMethod<[], boolean>,
+  'remove_identifier_from_mapping' : ActorMethod<
+    [Principal, Principal, number],
+    undefined
+  >,
   'report_death_by_base64Id' : ActorMethod<[number, string], ManualReply_4>,
   'request_random_will_identifier' : ActorMethod<[], number>,
   'set_icrc_canister_id' : ActorMethod<[string], string>,

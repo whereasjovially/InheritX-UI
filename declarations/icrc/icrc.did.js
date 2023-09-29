@@ -105,7 +105,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'icp_transfer' : IDL.Func([IDL.Nat32, IDL.Principal], [ManualReply_1], []),
     'icrc_ckbtc_transfer' : IDL.Func(
-        [IDL.Nat32, IDL.Principal, IDL.Nat],
+        [IDL.Nat32, IDL.Principal],
         [ManualReply_2],
         [],
       ),

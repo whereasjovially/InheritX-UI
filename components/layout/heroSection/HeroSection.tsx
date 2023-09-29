@@ -11,11 +11,15 @@ import {
 import { isConnectedAtom } from "@/state/jotai";
 import { useAtom } from "jotai";
 import { connectWallet } from "../../auth/auth";
+import { useSignOut } from "@/hooks/signOut";
 
 export default function HeroSection() {
   const [, setConnected] = useAtom(isConnectedAtom);
+  const [clearStates] = useSignOut();
 
   const connect = async () => {
+    console.log("clearing states......");
+    clearStates();
     const connection = await connectWallet();
     console.log(
       "🚀 ~ file: HeroSection.tsx:23 ~ connectWallet ~ connection:",

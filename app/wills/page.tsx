@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 
 import WillList from "@/components/myWills/WillList";
 
-function Portfolio() {
+function Will() {
   const searchParams = useSearchParams();
   const search = searchParams.get("name");
 
@@ -14,4 +14,4 @@ function Portfolio() {
     </>
   );
 }
-export default Portfolio;
+export default Will;

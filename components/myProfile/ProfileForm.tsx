@@ -32,7 +32,7 @@ import {
   birthDateAtom,
   birthLocationCodeAtom,
   firstNamesAtom,
-  isProfileFormOpen,
+  isProfileFormOpenAtom,
   isUserExistsAtom,
   lastNameAtom,
   principalAtom,
@@ -46,7 +46,7 @@ export function ProfileForm() {
   //atom states
   const [isUserExists, setUserExists] = useAtom(isUserExistsAtom);
   const [, setError] = useState<string | null>(null);
-  const [, setOpen] = useAtom(isProfileFormOpen);
+  const [, setOpen] = useAtom(isProfileFormOpenAtom);
   const [, setPrincipal] = useAtom(principalAtom);
   const [firstNames, setFirstNames] = useAtom(firstNamesAtom);
   const [lastName, setLastName] = useAtom(lastNameAtom);

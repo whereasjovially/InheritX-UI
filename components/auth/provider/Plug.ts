@@ -1,7 +1,6 @@
 // Util
 import { Identity } from "@dfinity/agent";
 import { CANISTER_WHITE_LIST } from "@/utils/canisters";
-// import { PlugConfig } from "../../../config/beamconfig"
 import { humanToE8s } from "@/utils/e8s";
 
 const host = process.env.NEXT_PUBLIC_IC_HOST;

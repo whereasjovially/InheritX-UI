@@ -3,16 +3,18 @@
 import dynamic from "next/dynamic";
 import React from "react";
 
-const ProfileNav = dynamic(() => import("@/components/myProfile/ProfileNav"), {
+const WillNav = dynamic(() => import("@/components/myWills/WillNav"), {
   // Do not import in server side
   ssr: false,
 });
-function PortfolioRootLayout({ children }: { children: React.ReactNode }) {
+export default function WillRootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
-      <ProfileNav>{children}</ProfileNav>
+      <WillNav>{children}</WillNav>
     </>
   );
 }
-
-export default PortfolioRootLayout;

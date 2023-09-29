@@ -105,6 +105,7 @@ export const idlFactory = ({ IDL }) => {
     'userDetails' : UserDetails,
     'userNotExists' : IDL.Bool,
   });
+  const _AzleResult = IDL.Variant({ 'Ok' : Will, 'Err' : IDL.Text });
   const GetHeirWills = IDL.Variant({
     'wills' : IDL.Vec(Will),
     'noWillsExists' : IDL.Bool,
@@ -126,6 +127,11 @@ export const idlFactory = ({ IDL }) => {
     'userNotExists' : IDL.Bool,
   });
   return IDL.Service({
+    'add_identifier_to_mapping' : IDL.Func(
+        [IDL.Principal, IDL.Principal, IDL.Nat32],
+        [],
+        [],
+      ),
     'add_user_details' : IDL.Func([userDetailsArgs], [AddUserDetails], []),
     'bitcoin_get_balance' : IDL.Func([IDL.Text], [IDL.Nat64], []),
     'canisterBalance' : IDL.Func([], [IDL.Nat64], ['query']),
@@ -148,15 +154,33 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Vec(IDL.Float64)))],
         ['query'],
       ),
+    'get_heirs_wills_by_princicpal' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(IDL.Vec(IDL.Nat32))],
+        ['query'],
+      ),
     'get_icrc_canister_id' : IDL.Func([], [IDL.Text], ['query']),
+    'get_testator_wills_by_princicpal' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(IDL.Vec(IDL.Nat32))],
+        ['query'],
+      ),
+    'get_user_by_princicpal' : IDL.Func([IDL.Principal], [IDL.Text], ['query']),
     'get_user_details' : IDL.Func([], [GetUserDetails], ['query']),
+    'get_will' : IDL.Func([IDL.Nat32], [_AzleResult], ['query']),
     'get_will_canister_id' : IDL.Func([], [IDL.Principal], ['query']),
-    'get_willsT' : IDL.Func([IDL.Principal], [IDL.Vec(IDL.Float64)], ['query']),
+    'get_willsC' : IDL.Func([], [IDL.Vec(IDL.Float64)], ['query']),
+    'get_willsT' : IDL.Func([], [IDL.Vec(IDL.Float64)], ['query']),
     'get_wills_for_heir' : IDL.Func([], [GetHeirWills], ['query']),
     'get_wills_for_testator' : IDL.Func([], [GetTestatorWills], ['query']),
     'is_user_principal_found' : IDL.Func([], [IDL.Bool], ['query']),
     'is_will_exists_heirs' : IDL.Func([], [IDL.Bool], ['query']),
     'is_will_exists_testator' : IDL.Func([], [IDL.Bool], ['query']),
+    'remove_identifier_from_mapping' : IDL.Func(
+        [IDL.Principal, IDL.Principal, IDL.Nat32],
+        [],
+        [],
+      ),
     'report_death_by_base64Id' : IDL.Func(
         [IDL.Nat32, IDL.Text],
         [ManualReply_4],
