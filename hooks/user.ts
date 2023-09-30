@@ -194,13 +194,13 @@ export function useUserInfo() {
           setLoading(false);
         } else {
           setError(JSON.stringify(user.userNotExists));
-          toast({
-            title: "User Not Exists.",
-            description: JSON.stringify(user.userNotExists),
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
+          // toast({
+          //   title: "Create Profile",
+          //   description: JSON.stringify(user.userNotExists),
+          //   status: "info",
+          //   duration: 9000,
+          //   isClosable: true,
+          // });
         }
       } catch (err) {
         console.log("🚀 ~ file: user.ts:162 ~ fetchUserDetails ~ err:", err);

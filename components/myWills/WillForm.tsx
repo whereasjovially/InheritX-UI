@@ -535,7 +535,7 @@ export function WillForm() {
                           placeholder="Select option"
                         >
                           <option value="ICP">$ICP</option>
-                          <option value="ckBTC">ckBTC</option>
+                          <option value="ckBTC">$ckBTC</option>
                         </Select>
                         <FormErrorMessage>
                           {form.errors.assetType}

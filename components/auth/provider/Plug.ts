@@ -46,7 +46,13 @@ export const createPlugLogin = () =>
       }
     };
   };
-
+export async function plugPrincipal(): Promise<string> {
+  if (await hasSession()) {
+    return await (window as any).ic.plug.sessionManager.sessionData.principalId;
+  } else {
+    return "Please Login";
+  }
+}
 export const isPlugConnected = async (): Promise<boolean> => {
   return await (window as any).ic?.plug?.isConnected();
 };
@@ -58,7 +64,7 @@ export const isAgentCreated = async () => {
   );
 };
 
-export const hasSession = async () => {
+export const hasSession = async (): Promise<boolean> => {
   return (window as any).ic?.plug?.sessionManager?.sessionData != null;
 };
 
@@ -104,7 +110,7 @@ export const checkPlugUserAuth = async (
 export const connectPlugForToken = async () =>
   // { showToast, toast, title }: any
   {
-    const whitelist = CANISTER_WHITE_LIST; 
+    const whitelist = CANISTER_WHITE_LIST;
 
     try {
       const isConnected = await (window as any).ic?.plug?.requestConnect({
@@ -139,7 +145,7 @@ export const connectPlugForToken = async () =>
   };
 
 export const connectPlug = async (): Promise<boolean> => {
-  const whitelist = CANISTER_WHITE_LIST; 
+  const whitelist = CANISTER_WHITE_LIST;
   try {
     const connect = await (window as any).ic?.plug?.requestConnect({
       whitelist,

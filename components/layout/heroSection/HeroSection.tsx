@@ -12,8 +12,10 @@ import { isConnectedAtom } from "@/state/jotai";
 import { useAtom } from "jotai";
 import { connectWallet } from "../../auth/auth";
 import { useSignOut } from "@/hooks/signOut";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
+  const router = useRouter();
   const [, setConnected] = useAtom(isConnectedAtom);
   const [clearStates] = useSignOut();
 
@@ -21,6 +23,9 @@ export default function HeroSection() {
     console.log("clearing states......");
     clearStates();
     const connection = await connectWallet();
+    if (connection) {
+      router.push("/");
+    }
     console.log(
       "🚀 ~ file: HeroSection.tsx:23 ~ connectWallet ~ connection:",
       connection
@@ -38,6 +43,7 @@ export default function HeroSection() {
         <Stack spacing={6} w={"full"} maxW={"lg"}>
           <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
             <Text
+              className="italic"
               as={"span"}
               position={"relative"}
               _after={{
@@ -51,22 +57,22 @@ export default function HeroSection() {
                 zIndex: -1,
               }}
             >
-              A
+              Inherit
             </Text>
-            <br />{" "}
-            <Text color={"blue.400"} as={"span"}>
-              M{" "}
+            {/* <br />{" "} */}
+            <Text className="shadow shadow-transparent" color={"blue.400"} as={"span"}>
+              X{" "}
             </Text>{" "}
           </Heading>
           <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>
-            The project board is an exclusive resource for contract work. Its
-            perfect for freelancers, agencies, and moonlighters.
+            
           </Text>
           <Stack direction={{ base: "column", md: "row" }} spacing={4}>
             <Button
-              className="border-2 "
+              shadow={"lg"}
+              className="border-4 border-transparent "
               onClick={connect}
-              rounded={"full"}
+              // rounded={"full"}
               // bg={"white"}
               color={"black"}
               _hover={{
@@ -82,7 +88,8 @@ export default function HeroSection() {
         <Image
           alt={"Login Image"}
           objectFit={"contain"}
-          src={`https://elements-cover-images-0.imgix.net/c243de7a-150c-4541-9d67-b4e16d078146?auto=compress%2Cformat&fit=max&w=900&s=c7cbb7cc81bb1744051ed82fef230c02`}
+          src="https://digitalwill.com/images/wishes.png"
+          // src={`https://elements-cover-images-0.imgix.net/c243de7a-150c-4541-9d67-b4e16d078146?auto=compress%2Cformat&fit=max&w=900&s=c7cbb7cc81bb1744051ed82fef230c02`}
         />
       </Flex>
     </Stack>

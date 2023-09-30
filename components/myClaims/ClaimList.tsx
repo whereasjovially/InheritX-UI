@@ -49,14 +49,18 @@ function ClaimList() {
     return (
       <>
         <AbsoluteCenter>
-          <p className="text-sm font-medium leading-none text-white">
+          <Box
+            as={"p"}
+            fontSize="30"
+            className="text-sm  leading-none text-black"
+          >
             <Icon
-              fontSize="16"
-              color={"white"}
+              fontSize="40"
+              color={"black"}
               as={BsFillPatchExclamationFill}
             />
-            No Wills To Claim
-          </p>
+            &nbsp;&nbsp;<b>No Wills To Claim</b>
+          </Box>
         </AbsoluteCenter>
       </>
     );
