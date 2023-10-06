@@ -13,7 +13,7 @@ InheritX is a blockchain-based application developed on <b>Internet Computer (IC
 
 ## Prerequisites
 
-1. `DFX_VERSION= 0.15.0-beta.6`
+1. `DFX_VERSION= 0.15.1`
 2. `AZLE_VERSION= 0.17.1`
 3. `NodeJS_VERSION= 18.17.1`
 
@@ -36,5 +36,5 @@ InheritX is a blockchain-based application developed on <b>Internet Computer (IC
 3. Deploy Canisters (run the command in new terminal)
 
    ```bash
-   dfx deploy inheritX --specified-id avqkn-guaaa-aaaaa-qaaea-cai
+   bash scripts/deploy.sh local
    ```

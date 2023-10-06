@@ -2,7 +2,6 @@
 
 echo "Pre Deployment for IC..."
 
-
 # Cleaning up folders
 bash scripts/cleanup.sh
 
@@ -40,5 +39,4 @@ echo $icrcVar >>.env
 echo $icpVar >>.env
 echo $ckBtcVar >>.env
 
-
-echo "Pre Deployment Configs Completed!"
+echo "Pre Deployment Configs For IC Completed!"

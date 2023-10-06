@@ -1,9 +1,6 @@
 #!/bin/bash
 
-
-if [[ $# -lt 1 ]]; then
-    echo "Argument 'local' or 'dev' expected, but found None. Continue with dev ..."
-fi
+echo "Pre Deployment for Local or Dev..."
 
 ENV=$1
 
@@ -44,21 +41,4 @@ echo $btcVar >>.env
 echo $icpVar >>.env
 echo $ckBtcVar >>.env
 
-# DFX_NETWORK=local
-
-# checking ENV variable passed to deploy
-if [[ $ENV == "local" ]]; then
-
-    echo "Switching the deployment to local replica"
-    dfx canister uninstall-code avqkn-guaaa-aaaaa-qaaea-cai
-    dfx canister stop avqkn-guaaa-aaaaa-qaaea-cai
-    dfx canister delete avqkn-guaaa-aaaaa-qaaea-cai
-    # yarn build
-    dfx deploy inheritX --specified-id avqkn-guaaa-aaaaa-qaaea-cai
-
-    exit 0
-fi
-
-# if ENV is dev or not provided (using as default local deployment)
-echo "Switching the deployment to node dev"
-yarn run dev
+echo "Pre Deployment Configs For Local or Dev Completed!"
