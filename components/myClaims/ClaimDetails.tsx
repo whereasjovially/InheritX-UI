@@ -1,13 +1,10 @@
-import {
-  useCheckDeath,
-  useClaimWill,
-  useDeleteWill,
-  useGetWill,
-  useReportDeath,
-} from "@/hooks/will";
+import { useCheckDeath } from "@/hooks/useWill/useCheckDeath";
+import { useClaimWill } from "@/hooks/useWill/useClaimWill";
+import { useGetWill } from "@/hooks/useWill/useGetWill";
+import { useReportDeath } from "@/hooks/useWill/useReportDeath";
 import { isClaimDetailsCloseAtom } from "@/state/jotai";
 import { e8sToHuman } from "@/utils/e8s";
-import { ICRCASSETLIST } from "@/utils/utils";
+import { ICRCASSETLIST, truncatePrincipal } from "@/utils/utils";
 import {
   AbsoluteCenter,
   Box,
@@ -22,40 +19,30 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 function ClaimDetails() {
-  const router = useRouter();
-
+  //atoms
   const [isClaimDetailsClose, setIsClaimDetailsClose] = useAtom(
     isClaimDetailsCloseAtom
   );
+
+  //local states
   const [isReportDeathInput, setReportDeathInput] = useState<boolean>(false);
-  console.log(
-    "🚀 ~ file: ClaimDetails.tsx:24 ~ ClaimDetails ~ isReportDeathInput:",
-    isReportDeathInput
-  );
   const [base64Id, setBase64Id] = useState<string | null>(null);
   const [isClaimButtonLoading, setClaimButtonLoading] =
     useState<boolean>(false);
-
   const [isReportDeathButtonLoading, setReportDeathButtonLoading] =
     useState<boolean>(false);
 
+  //hooks
+  const router = useRouter();
+  const toast = useToast();
   const searchParams = useSearchParams();
-  const identifier = searchParams.get("id");
 
   const [will, fetchGetWill, isLoading] = useGetWill();
   const [claimWillFunc, useClaimWill_isLoading] = useClaimWill();
   const [isDied, reportDeathFunc, useReportDeath_isLoading] = useReportDeath();
-  console.log(
-    "🚀 ~ file: ClaimDetails.tsx:32 ~ ClaimDetails ~ isDied:",
-    isDied
-  );
   const [checkIsDied, checkDeath] = useCheckDeath();
-  console.log(
-    "🚀 ~ file: ClaimDetails.tsx:33 ~ ClaimDetails ~ checkIsDied:",
-    checkIsDied
-  );
 
-  const toast = useToast();
+  const identifier = searchParams.get("id");
 
   useEffect(() => {
     if (identifier) {
@@ -108,6 +95,7 @@ function ClaimDetails() {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
     }
   };
@@ -152,7 +140,7 @@ function ClaimDetails() {
             <Box as="p" className="text-lg text-black leading-4 ">
               Will Title
             </Box>
-            <Box as="p" className="text-lg text-black font-semibold leading-4 ">
+            <Box as="p" className="text-lg text-black  leading-4 ">
               {will.willName}
             </Box>
           </Box>
@@ -160,7 +148,7 @@ function ClaimDetails() {
             <Box as="p" className="text-lg text-black leading-4 ">
               Will Description
             </Box>
-            <Box as="p" className="text-lg text-black font-semibold leading-4 ">
+            <Box as="p" className="text-lg text-black  leading-4 ">
               {will.willDescription}
             </Box>
           </Box>
@@ -168,7 +156,7 @@ function ClaimDetails() {
             <Box as="p" className="text-lg text-black leading-4 ">
               Will UID
             </Box>
-            <Box as="p" className="text-lg text-black font-semibold leading-4 ">
+            <Box as="p" className="text-lg text-black  leading-4 ">
               {will.identifier}
             </Box>
           </Box>
@@ -176,23 +164,23 @@ function ClaimDetails() {
             <Box as="p" className="text-lg text-black leading-4 ">
               Testator
             </Box>
-            <Box as="p" className="text-lg text-black font-semibold leading-4 ">
-              {will.testator.toString()}
+            <Box as="p" className="text-lg text-black  leading-4 ">
+              {truncatePrincipal(will.testator.toString())}
             </Box>
           </Box>{" "}
           <Box className="flex justify-between w-full items-center">
             <Box as="p" className="text-lg text-black leading-4 ">
               Heir
             </Box>
-            <Box as="p" className="text-lg text-black font-semibold leading-4 ">
-              {will.heirs.toString()}
+            <Box as="p" className="text-lg text-black  leading-4 ">
+              {truncatePrincipal(will.heirs.toString())}
             </Box>
           </Box>
           <Box className="flex justify-between w-full items-center">
             <Box as="p" className="text-lg text-black leading-4 ">
               Date
             </Box>
-            <Box as="p" className="text-lg text-black font-semibold leading-4 ">
+            <Box as="p" className="text-lg text-black  leading-4 ">
               {will.timeStamp as unknown as string}
             </Box>
           </Box>
@@ -200,7 +188,7 @@ function ClaimDetails() {
             <Box as="p" className="text-lg text-black leading-4 ">
               Token Ticker
             </Box>
-            <Box as="p" className="text-lg text-black font-semibold leading-4 ">
+            <Box as="p" className="text-lg text-black  leading-4 ">
               {will.tokenTicker}
             </Box>
           </Box>
@@ -208,7 +196,7 @@ function ClaimDetails() {
             <Box as="p" className="text-lg text-black leading-4 ">
               Amount
             </Box>
-            <Box as="p" className="text-lg text-black font-semibold leading-4 ">
+            <Box as="p" className="text-lg text-black  leading-4 ">
               {e8sToHuman(will.value)}
             </Box>
           </Box>
@@ -216,7 +204,7 @@ function ClaimDetails() {
             <Box as="p" className="text-lg text-black leading-4 ">
               Date
             </Box>
-            <Box as="p" className="text-lg text-black font-semibold leading-4 ">
+            <Box as="p" className="text-lg text-black  leading-4 ">
               20
             </Box>
           </Box> */}
@@ -228,7 +216,7 @@ function ClaimDetails() {
             as="button"
             // isLoading={}
             // isDisabled={!isDied || !checkIsDied}
-            className="text-xl text-black  bg-green-800 font-semibold leading-4 "
+            className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
           >
             Claim
           </Button>
@@ -245,9 +233,9 @@ function ClaimDetails() {
               isLoading={isReportDeathButtonLoading}
               onClick={reportDeath}
               isDisabled={isDied || checkIsDied}
-              className="text-lg text-black bg-red-800 font-semibold leading-4 "
+              className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
             >
-              Report Death
+              Report User
             </Button>
           </>
         </Box>

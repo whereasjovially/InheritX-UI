@@ -4,10 +4,11 @@ import { AbsoluteCenter, Box, Button, Icon, Spinner } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { PiPlus } from "react-icons/pi";
 import { WillForm } from "./WillForm";
-import { useWillIdentifier } from "@/hooks/will";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useWillIdentifier } from "@/hooks/useWill/useWillIdentifier";
 function CreateWill({ children }: { children: React.ReactNode }) {
+  //hooks
   const router = useRouter();
 
   const [isOpen, setOpen] = useAtom(isWillFormOpenAtom);
@@ -60,6 +61,7 @@ function CreateWill({ children }: { children: React.ReactNode }) {
 }
 
 function WillNav({ children }: { children: React.ReactNode }) {
+  //hooks
   const [isUserExists, isLoading, error] = useUser();
 
   return isLoading ? (

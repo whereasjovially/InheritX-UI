@@ -39,42 +39,48 @@ export default function Home() {
         </Box>
         <Box className="mx-auto container md:-mt-28 -mt-20 flex justify-center items-center">
           <Box className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-x-2 gap-y-2 lg:gap-x-6 md:gap-x-6 md:gap-y-6">
-            <Box 
+            <Box
               bg={useColorModeValue("gray.300", "gray.900")}
               className="shadow-lg flex justify-center flex-col items-center w-36 h-36 md:w-44 md:h-48 lg:w-56 lg:h-56  rounded-2xl"
-            ><Link href={"/profile"}>
-              <h2 className="lg:text-5xl md:text-4xl text-2xl font-extrabold leading-10 text-center text-gray-800">
-                <Icon as={CgProfile} />
-              </h2>
-              <p className="mt-4 text-sm md:text-base lg:text-lg leading-none text-center text-gray-600">
-                {" "}
-                Profile
-              </p>
-              </Link>  </Box >
-            <Box 
+            >
+              <Link href={"/profile"}>
+                <h2 className="lg:text-5xl md:text-4xl text-2xl font-extrabold leading-10 text-center text-gray-800">
+                  <Icon as={CgProfile} />
+                </h2>
+                <p className="mt-4 text-sm md:text-base lg:text-lg leading-none text-center text-gray-600">
+                  {" "}
+                  Profile
+                </p>
+              </Link>{" "}
+            </Box>
+            <Box
               bg={useColorModeValue("gray.300", "gray.900")}
               className="shadow-lg flex justify-center flex-col items-center w-36 h-36 md:w-44 md:h-48 lg:w-56 lg:h-56  rounded-2xl"
-            ><Link href={"/wills"}>
-              <h2 className="lg:text-5xl md:text-4xl text-2xl font-extrabold leading-10 text-center text-gray-800">
-                <Icon as={TbJewishStar} />
-              </h2>
-              <p className="mt-4 text-sm md:text-base lg:text-lg leading-none text-center text-gray-600">
-                {" "}
-                Wills
-              </p></Link>
-            </Box >
-            <Box 
+            >
+              <Link href={"/wills"}>
+                <h2 className="lg:text-5xl md:text-4xl text-2xl font-extrabold leading-10 text-center text-gray-800">
+                  <Icon as={TbJewishStar} />
+                </h2>
+                <p className="mt-4 text-sm md:text-base lg:text-lg leading-none text-center text-gray-600">
+                  {" "}
+                  Wills
+                </p>
+              </Link>
+            </Box>
+            <Box
               bg={useColorModeValue("gray.300", "gray.900")}
               className="shadow-lg flex justify-center flex-col items-center w-36 h-36 md:w-44 md:h-48 lg:w-56 lg:h-56  rounded-2xl"
-            ><Link href={"/claims"}>
-              <h2 className="lg:text-5xl md:text-4xl text-2xl font-extrabold leading-10 text-center text-gray-800">
-                <Icon as={SiAcclaim} />
-              </h2>
-              <p className="mt-4 text-sm md:text-base lg:text-lg leading-none text-center text-gray-600">
-                {" "}
-                Claims
-              </p></Link>
-            </Box >
+            >
+              <Link href={"/claims"}>
+                <h2 className="lg:text-5xl md:text-4xl text-2xl font-extrabold leading-10 text-center text-gray-800">
+                  <Icon as={SiAcclaim} />
+                </h2>
+                <p className="mt-4 text-sm md:text-base lg:text-lg leading-none text-center text-gray-600">
+                  {" "}
+                  Claims
+                </p>
+              </Link>
+            </Box>
           </Box>
         </Box>
       </Box>

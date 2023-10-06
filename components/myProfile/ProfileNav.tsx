@@ -1,17 +1,16 @@
 "use client ";
 
 import { useUser } from "@/hooks/user";
-import { isProfileFormOpenAtom, isUserExistsAtom } from "@/state/jotai";
+import { isProfileFormOpenAtom } from "@/state/jotai";
 import {
   AbsoluteCenter,
   Box,
   Button,
-  Center,
   Icon,
   Spinner,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
-import React, { useEffect, useState } from "react";
+import React, {  } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { PiUserPlus } from "react-icons/pi";
 import { ProfileForm } from "./ProfileForm";
@@ -20,6 +19,7 @@ function CreateProfile() {
   const [isOpen, setOpen] = useAtom(isProfileFormOpenAtom);
 
   const openForm = () => {
+    //atoms
     setOpen(true);
   };
   return isOpen ? (
@@ -42,6 +42,7 @@ function CreateProfile() {
 }
 
 function EditInformation({ children }: { children: React.ReactNode }) {
+  //atoms
   const [isOpen, setOpen] = useAtom(isProfileFormOpenAtom);
 
   const openForm = () => {
@@ -75,6 +76,7 @@ function EditInformation({ children }: { children: React.ReactNode }) {
 }
 
 function ProfileNav({ children }: { children: React.ReactNode }) {
+  //hooks
   const [isUserExists, isLoading, error] = useUser();
 
   return isLoading ? (

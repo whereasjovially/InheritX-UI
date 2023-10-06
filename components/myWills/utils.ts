@@ -7,7 +7,7 @@ export function transferWillData(data:any):CreateWillArgsU{
     const willName=String(data.willName)
     const willDescription=JSON.stringify(data.willDescription)
     const tokenTicker=String(data.tokenTicker)
-    const amount=humanToE8s(data.amount)
+    const amount=humanToE8s(data.amount)!
     const heirs=Principal.fromText(data.heirs)
     const identifier=Number(data.identifier)
 

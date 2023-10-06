@@ -1,21 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   AbsoluteCenter,
   Box,
-  Button,
-  Center,
-  FormControl,
-  FormLabel,
   Icon,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Spacer,
   Spinner,
   Table,
@@ -24,20 +12,21 @@ import {
   Td,
   Th,
   Thead,
-  Tooltip,
   Tr,
-  useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { BsFillPatchExclamationFill } from "react-icons/bs";
 import { IoIosExpand } from "react-icons/io";
-import { useHeirs, useTestator } from "@/hooks/will";
 import { principalAtom } from "@/state/jotai";
 import { useAtom } from "jotai";
 import { truncatePrincipal } from "@/utils/utils";
+import { useHeirs } from "@/hooks/useWill/useHeirs";
 function ClaimList() {
-  const [heirsWills, isLoading, error] = useHeirs();
+  //atoms
   const [principal, setPrincipal] = useAtom(principalAtom);
+
+  //hooks
+  const [heirsWills, isLoading, error] = useHeirs();
 
   if (isLoading) {
     return (
@@ -70,7 +59,6 @@ function ClaimList() {
         <Box className="mt-0 shadow">
           <TableContainer>
             <Table colorScheme="teal">
-              {/* <TableCaption>List of Asset In a Given Portfolio</TableCaption> */}
               <Thead>
                 <Tr>
                   <Th>Sno</Th>
@@ -84,12 +72,7 @@ function ClaimList() {
                 {heirsWills.map((item, index) => (
                   <Tr key={index + 1}>
                     {" "}
-                    <Td>
-                      {/* <Link href={`/asset?name=${item.name}&asset_name=${item.asset_name}`}> */}
-                      {index + 1}
-                      {/* </Link> */}
-                    </Td>{" "}
-                    <Spacer />
+                    <Td>{index + 1}</Td> <Spacer />
                     <Td>{item}</Td> <Spacer />
                     <Td>{truncatePrincipal(principal!, 5)}</Td> <Spacer />
                     <Td>

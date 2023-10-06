@@ -18,28 +18,13 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import {
-  transformData,
-  validateBirthDate,
-  validateBirthLocationCode,
-  validateFirstNames,
-  validateLastName,
-  validateSex,
-} from "../myProfile/utils";
 import { useState } from "react";
 import { CKBTC, ICP, ICRC, WILL } from "@/configs/canistersService";
 import { createActor } from "@/services/createActor";
 import {
-  birthDateAtom,
-  birthLocationCodeAtom,
-  firstNamesAtom,
   identifierAtom,
-  isProfileFormOpenAtom,
   isUserExistsAtom,
   isWillFormOpenAtom,
-  lastNameAtom,
-  principalAtom,
-  sexAtom,
   testatorWillsAtom,
 } from "@/state/jotai";
 import { useAtom } from "jotai";
@@ -47,20 +32,12 @@ import { Principal } from "@dfinity/principal";
 import { e8sToHuman, humanToE8s } from "@/utils/e8s";
 import { useUserInfo } from "@/hooks/user";
 import { transferWillData } from "./utils";
-import {
-  CreateWillArgs,
-  ICRCCreateWill,
-  ICRCCreateWillArgs,
-  ManualReply_2,
-} from "@/declarations/will/will.did";
+import { CreateWillArgs, ManualReply_2 } from "@/declarations/will/will.did";
 import {
   TransferArgs,
   TransferResult as ICPTransferResult,
 } from "@/declarations/icp/icp/icp_ledger.did";
-import { FaLeaf } from "react-icons/fa";
-import { ICRC1Account } from "@/declarations/icrc/icrc.did";
 import {
-  Subaccount,
   TransferArg,
   TransferResult as ckBTCTransferResult,
 } from "@/declarations/ckbtc/ckbtc/ckbtc_ledger.did";
@@ -76,20 +53,19 @@ export interface CreateWillArgsU {
 }
 
 export function WillForm() {
-  const [willType, setWillType] = useState("");
-  const [assetType, setAssetType] = useState<string>("");
-
-  const [loading, setLoading] = useState<boolean>(false);
-  const [, setProfileResult] = useState<boolean>(false);
-
-  //atom states
-  const [isUserExists, setUserExists] = useAtom(isUserExistsAtom);
-  const [, setError] = useState<string | null>(null);
+  //atoms
   const [, setOpen] = useAtom(isWillFormOpenAtom);
   const [principal] = useUserInfo();
   const [identifier, setIdentifier] = useAtom(identifierAtom);
-  const [testatorWills, setTestatorWills] = useAtom(testatorWillsAtom);
+  const [, setTestatorWills] = useAtom(testatorWillsAtom);
 
+  //local states
+  const [willType, setWillType] = useState("");
+  const [assetType, setAssetType] = useState<string>("");
+
+  const [loading] = useState<boolean>(false);
+
+  //hooks
   const toast = useToast();
 
   function validateWllName(willName: any) {
@@ -121,24 +97,42 @@ export function WillForm() {
     }
     return error;
   }
+  function isNumeric(input: string): boolean {
+    return /^[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$/.test(input);
+  }
 
   function validateICRCAmount(amount: string) {
-    let error;
+    try {
+      let error;
+    if (!isNumeric(amount)) {
+      error = "No Numeric value is allowed";
+    }
     if (!willType) {
       error = "Please select will type before entering amount";
     }
     if (!assetType) {
       error = "Please select asset before entering amount";
     } else if (willType === "ICRC") {
-      const amountInInt = Number(amount);
-      const amountInBigInt = humanToE8s(amountInInt);
-      if (assetType === "ICP" && amountInBigInt <= 10000) {
-        error = "Amount should be greater than 0.0001 ICP";
-      } else if (assetType === "ckBTC" && amountInBigInt <= 10) {
-        error = `Amount should be greater than ${e8sToHuman(10)} ckBTC`;
+      if (assetType === "ICP") {
+        const amountInInt = Number(amount);
+        const amountInBigInt = humanToE8s(amountInInt)!;
+        if (amountInBigInt <= 10000) {
+          error = "Amount should be greater than 0.0001 ICP";
+        }
+      } else if (assetType === "ckBTC") {
+        const amountInInt = Number(amount);
+        const amountInBigInt = BigInt((amountInInt * 1e8).toString());
+        if (amountInBigInt <= 10) {
+          error = `Amount should be greater than 0.00000010 ckBTC`;
+        }
       }
     }
     return error;
+    } catch (error) {
+      console.log("🚀 ~ file: WillForm.tsx:108 ~ validateICRCAmount ~ error:", error)
+      
+    }
+    
   }
   async function willSubmit(willArgs: CreateWillArgsU) {
     if (willArgs.willType === "ICRC") {
@@ -183,10 +177,10 @@ export function WillForm() {
             const transferArgs: TransferArgs = {
               to: addressFromIdentifierResult,
               amount: { e8s: willArgs.amount },
-              fee: { e8s: humanToE8s(0.0001) },
+              fee: { e8s: humanToE8s(0.0001)! },
               from_subaccount: [],
               created_at_time: [],
-              memo: humanToE8s(0),
+              memo: humanToE8s(0)!,
             };
             const transfer: ICPTransferResult = await icpLedgerActor.transfer(
               transferArgs
@@ -203,6 +197,7 @@ export function WillForm() {
                 status: "error",
                 duration: 9000,
                 isClosable: true,
+                position: "top",
               });
               setOpen(false);
               setTestatorWills(null);
@@ -216,6 +211,7 @@ export function WillForm() {
                 status: "success",
                 duration: 9000,
                 isClosable: true,
+                position: "top",
               });
               setOpen(false);
               setTestatorWills(null);
@@ -229,6 +225,7 @@ export function WillForm() {
                 status: "error",
                 duration: 9000,
                 isClosable: true,
+                position: "top",
               });
               setOpen(false);
               setTestatorWills(null);
@@ -247,7 +244,7 @@ export function WillForm() {
                 subaccount: [toSubAccountResult],
               },
               amount: willArgs.amount,
-              fee: [(10n)],
+              fee: [10n],
               from_subaccount: [],
               created_at_time: [],
               memo: [],
@@ -267,6 +264,7 @@ export function WillForm() {
                 status: "error",
                 duration: 9000,
                 isClosable: true,
+                position: "top",
               });
               setOpen(false);
               setTestatorWills(null);
@@ -280,6 +278,7 @@ export function WillForm() {
                 status: "success",
                 duration: 9000,
                 isClosable: true,
+                position: "top",
               });
               setOpen(false);
               setTestatorWills(null);
@@ -293,6 +292,7 @@ export function WillForm() {
                 status: "error",
                 duration: 9000,
                 isClosable: true,
+                position: "top",
               });
               setOpen(false);
               setTestatorWills(null);
@@ -308,6 +308,7 @@ export function WillForm() {
             status: "error",
             duration: 9000,
             isClosable: true,
+            position: "top",
           });
         }
       } catch (error) {
@@ -321,6 +322,7 @@ export function WillForm() {
           status: "error",
           duration: 9000,
           isClosable: true,
+          position: "top",
         });
       }
     } else if (willArgs.willType === "BTC") {
@@ -407,6 +409,7 @@ export function WillForm() {
                 status: "error",
                 duration: 9000,
                 isClosable: true,
+                position: "top",
               });
               setTimeout(() => {
                 actions.setSubmitting(false);
@@ -480,7 +483,8 @@ export function WillForm() {
                     <FormErrorMessage>{form.errors.heirs}</FormErrorMessage>
                   </FormControl>
                 )}
-              </Field>
+              </Field>{" "}
+              <br />
               <Field as="select" name="willType">
                 {({ field, form }: any) => (
                   <FormControl
@@ -500,7 +504,6 @@ export function WillForm() {
                   </FormControl>
                 )}
               </Field>
-              <br />
               {/* {willType === "BTC" && (
                 <Field name="lastName">
                   {({ field, form }: any) => (

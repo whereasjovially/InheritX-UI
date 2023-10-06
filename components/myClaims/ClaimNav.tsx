@@ -1,39 +1,16 @@
 import { useUser } from "@/hooks/user";
 import { isWillFormOpenAtom } from "@/state/jotai";
-import {
-  AbsoluteCenter,
-  Box,
-  Button,
-  Center,
-  Heading,
-  Icon,
-  Spinner,
-} from "@chakra-ui/react";
+import { AbsoluteCenter, Box, Spinner } from "@chakra-ui/react";
 import { useAtom } from "jotai";
-import { PiPlus } from "react-icons/pi";
-// import { WillForm } from "./WillForm";
-import { useWillIdentifier } from "@/hooks/will";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useWillIdentifier } from "@/hooks/useWill/useWillIdentifier";
+
 function CreateWill({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
+  //atoms
+  const [isOpen] = useAtom(isWillFormOpenAtom);
 
-  const [isOpen, setOpen] = useAtom(isWillFormOpenAtom);
-  const [identifier, requestWillIdentifier, isLoading, error] =
-    useWillIdentifier();
-  const [isUserExists] = useUser();
+  //hooks
+  const [identifier, requestWillIdentifier, isLoading] = useWillIdentifier();
 
-  //if user not exists in canister push to profile route
-  // useEffect(() => {
-  //   if (!isUserExists) {
-  //     router.push("/profile");
-  //   }
-  // });
-
-  const createWill = async () => {
-    await requestWillIdentifier();
-    setOpen(true);
-  };
   if (isLoading) {
     return (
       <AbsoluteCenter>

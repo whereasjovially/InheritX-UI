@@ -23,3 +23,7 @@ export function truncatePrincipal(str?: string, maxLength?: number) {
     console.log(error);
   }
 }
+
+export function isNumeric(input: string): boolean {
+  return /^[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$/.test(input);
+}

@@ -6,10 +6,6 @@ import { humanToE8s } from "@/utils/e8s";
 const host = process.env.NEXT_PUBLIC_IC_HOST;
 
 export const createPlugLogin = () =>
-  //   handleAuthenticated,
-  //   authProvider,
-  //   CANISTER_WHITE_LIST,
-  //   showLoginMesg
   {
     return async () => {
       try {
@@ -145,17 +141,25 @@ export const connectPlugForToken = async () =>
   };
 
 export const connectPlug = async (): Promise<boolean> => {
-  const whitelist = CANISTER_WHITE_LIST;
   try {
-    const connect = await (window as any).ic?.plug?.requestConnect({
-      whitelist,
-      host,
-      timeout: 50000,
-    });
-    console.log("🚀 ~ file: Plug.ts:148 ~ connect ~ connect:", connect);
-    return await isPlugConnected();
-  } catch (error) {
-    console.error(error);
+    if (window.ic?.plug && "Plug and play!") {
+      const whitelist = CANISTER_WHITE_LIST;
+      try {
+        const connect = await (window as any).ic?.plug?.requestConnect({
+          whitelist,
+          host,
+          timeout: 50000,
+        });
+        console.log("🚀 ~ file: Plug.ts:148 ~ connect ~ connect:", connect);
+        return await isPlugConnected();
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } catch (e) {
     return false;
   }
 };

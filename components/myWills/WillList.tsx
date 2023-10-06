@@ -1,21 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   AbsoluteCenter,
   Box,
-  Button,
-  Center,
-  FormControl,
-  FormLabel,
   Icon,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Spacer,
   Spinner,
   Table,
@@ -24,19 +12,16 @@ import {
   Td,
   Th,
   Thead,
-  Tooltip,
   Tr,
-  useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { BsFillPatchExclamationFill } from "react-icons/bs";
 import { IoIosExpand } from "react-icons/io";
-import { useTestator } from "@/hooks/will";
-import { principalAtom } from "@/state/jotai";
-import { useAtom } from "jotai";
 import { truncatePrincipal } from "@/utils/utils";
-import { useUser, useUserInfo } from "@/hooks/user";
+import { useUserInfo } from "@/hooks/user";
+import { useTestator } from "@/hooks/useWill/useTestator";
 function WillList() {
+  //hooks
   const [testatorWills, isLoading, error] = useTestator();
   const [principal] = useUserInfo();
 
