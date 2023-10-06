@@ -144,6 +144,7 @@ export const connectPlug = async (): Promise<boolean> => {
   try {
     if (window.ic?.plug && "Plug and play!") {
       const whitelist = CANISTER_WHITE_LIST;
+      console.log("🚀 ~ file: Plug.ts:147 ~ connectPlug ~ whitelist:", whitelist)
       try {
         const connect = await (window as any).ic?.plug?.requestConnect({
           whitelist,

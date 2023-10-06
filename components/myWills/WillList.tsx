@@ -18,8 +18,8 @@ import Link from "next/link";
 import { BsFillPatchExclamationFill } from "react-icons/bs";
 import { IoIosExpand } from "react-icons/io";
 import { truncatePrincipal } from "@/utils/utils";
-import { useUserInfo } from "@/hooks/user";
 import { useTestator } from "@/hooks/useWill/useTestator";
+import { useUserInfo } from "@/hooks/useUser/useUserInfo";
 function WillList() {
   //hooks
   const [testatorWills, isLoading, error] = useTestator();

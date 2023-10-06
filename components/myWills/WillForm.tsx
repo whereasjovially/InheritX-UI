@@ -30,7 +30,6 @@ import {
 import { useAtom } from "jotai";
 import { Principal } from "@dfinity/principal";
 import { e8sToHuman, humanToE8s } from "@/utils/e8s";
-import { useUserInfo } from "@/hooks/user";
 import { transferWillData } from "./utils";
 import { CreateWillArgs, ManualReply_2 } from "@/declarations/will/will.did";
 import {
@@ -41,6 +40,7 @@ import {
   TransferArg,
   TransferResult as ckBTCTransferResult,
 } from "@/declarations/ckbtc/ckbtc/ckbtc_ledger.did";
+import { useUserInfo } from "@/hooks/useUser/useUserInfo";
 
 export interface CreateWillArgsU {
   heirs: Principal;

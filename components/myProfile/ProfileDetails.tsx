@@ -1,4 +1,4 @@
-import { useUserInfo } from "@/hooks/user";
+import { useUserInfo } from "@/hooks/useUser/useUserInfo";
 import {
   AbsoluteCenter,
   Spinner,

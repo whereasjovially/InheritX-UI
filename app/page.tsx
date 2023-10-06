@@ -1,7 +1,7 @@
 "use client";
 
 import { plugPrincipal } from "@/components/auth/provider/Plug";
-import { useUser, useUserInfo } from "@/hooks/user";
+import { useUserInfo } from "@/hooks/useUser/useUserInfo";
 import { Box, Icon, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";

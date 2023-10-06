@@ -34,14 +34,11 @@ import { useProfileSubmit } from "@/hooks/useUser/useProfileSubmt";
 export function ProfileForm() {
   //atoms
   const [, setOpen] = useAtom(isProfileFormOpenAtom);
-  const [, setPrincipal] = useAtom(principalAtom);
-  const [firstNames, setFirstNames] = useAtom(firstNamesAtom);
-  const [lastName, setLastName] = useAtom(lastNameAtom);
-  const [sex, setSex] = useAtom(sexAtom);
-  const [birthDate, setBirthDate] = useAtom(birthDateAtom);
-  const [birthLocationCode, setBirthLocationCode] = useAtom(
-    birthLocationCodeAtom
-  );
+  const [firstNames] = useAtom(firstNamesAtom);
+  const [lastName] = useAtom(lastNameAtom);
+  const [sex] = useAtom(sexAtom);
+  const [birthDate] = useAtom(birthDateAtom);
+  const [birthLocationCode] = useAtom(birthLocationCodeAtom);
 
   //hooks
   const [loading, profileSubmit] = useProfileSubmit();

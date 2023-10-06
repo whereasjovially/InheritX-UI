@@ -1,6 +1,5 @@
 "use client ";
 
-import { useUser } from "@/hooks/user";
 import { isProfileFormOpenAtom } from "@/state/jotai";
 import {
   AbsoluteCenter,
@@ -14,6 +13,7 @@ import React, {  } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { PiUserPlus } from "react-icons/pi";
 import { ProfileForm } from "./ProfileForm";
+import { useIsUserExists } from "@/hooks/useUser/useIsUserExists";
 
 function CreateProfile() {
   const [isOpen, setOpen] = useAtom(isProfileFormOpenAtom);
@@ -77,7 +77,7 @@ function EditInformation({ children }: { children: React.ReactNode }) {
 
 function ProfileNav({ children }: { children: React.ReactNode }) {
   //hooks
-  const [isUserExists, isLoading, error] = useUser();
+  const [isUserExists, isLoading, error] = useIsUserExists();
 
   return isLoading ? (
     <AbsoluteCenter>

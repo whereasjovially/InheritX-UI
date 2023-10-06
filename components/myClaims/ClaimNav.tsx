@@ -1,4 +1,4 @@
-import { useUser } from "@/hooks/user";
+import { useIsUserExists } from "@/hooks/useUser/useIsUserExists";
 import { isWillFormOpenAtom } from "@/state/jotai";
 import { AbsoluteCenter, Box, Spinner } from "@chakra-ui/react";
 import { useAtom } from "jotai";
@@ -30,7 +30,7 @@ function CreateWill({ children }: { children: React.ReactNode }) {
 }
 
 function ClaimNav({ children }: { children: React.ReactNode }) {
-  const [isUserExists, isLoading, error] = useUser();
+  const [isUserExists, isLoading, error] = useIsUserExists();
 
   return isLoading ? (
     <AbsoluteCenter>

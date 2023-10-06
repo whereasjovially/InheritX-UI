@@ -102,7 +102,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           fontWeight="bold"
           textColor={"black"}
         >
-          A M
+          iX
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
@@ -200,7 +200,7 @@ const MobileNav = ({ signOut, onOpen, ...rest }: MobileProps) => {
         fontWeight="bold"
         textColor={"black"}
       >
-        A M
+        iX
       </Text>
 
       <Button

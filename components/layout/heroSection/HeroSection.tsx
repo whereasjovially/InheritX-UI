@@ -13,10 +13,10 @@ import {
 import { isConnectedAtom } from "@/state/jotai";
 import { useAtom } from "jotai";
 import { connectWallet } from "../../auth/auth";
-import { useSignOut } from "@/hooks/signOut";
 import { useRouter } from "next/navigation";
 import PlugConnectIcon from "@/icon";
 import { showToast } from "@/utils/toast";
+import { useSignOut } from "@/hooks/useUtils/useSignOut";
 
 export default function HeroSection() {
   const router = useRouter();

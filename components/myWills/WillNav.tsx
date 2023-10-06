@@ -1,4 +1,3 @@
-import { useUser } from "@/hooks/user";
 import { isWillFormOpenAtom } from "@/state/jotai";
 import { AbsoluteCenter, Box, Button, Icon, Spinner } from "@chakra-ui/react";
 import { useAtom } from "jotai";
@@ -7,6 +6,7 @@ import { WillForm } from "./WillForm";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useWillIdentifier } from "@/hooks/useWill/useWillIdentifier";
+import { useIsUserExists } from "@/hooks/useUser/useIsUserExists";
 function CreateWill({ children }: { children: React.ReactNode }) {
   //hooks
   const router = useRouter();
@@ -14,7 +14,7 @@ function CreateWill({ children }: { children: React.ReactNode }) {
   const [isOpen, setOpen] = useAtom(isWillFormOpenAtom);
   const [identifier, requestWillIdentifier, isLoading, error] =
     useWillIdentifier();
-  const [isUserExists] = useUser();
+  const [isUserExists] = useIsUserExists();
 
   //if user not exists in canister push to profile route
   useEffect(() => {
@@ -62,7 +62,7 @@ function CreateWill({ children }: { children: React.ReactNode }) {
 
 function WillNav({ children }: { children: React.ReactNode }) {
   //hooks
-  const [isUserExists, isLoading, error] = useUser();
+  const [isUserExists, isLoading, error] = useIsUserExists();
 
   return isLoading ? (
     <AbsoluteCenter>

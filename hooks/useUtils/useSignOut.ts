@@ -32,9 +32,7 @@ export const useSignOut = () => {
   const [, setHeirsWills] = useAtom(heirsWillsAtom);
   const [, setConnected] = useAtom(isConnectedAtom);
   const [, setIsClaimDetailsClose] = useAtom(isClaimDetailsCloseAtom);
-  const [isDeleteDetailsClose, setIsDeleteDetailsClose] = useAtom(
-    isDeleteDetailsCloseAtom
-  );
+  const [, setIsDeleteDetailsClose] = useAtom(isDeleteDetailsCloseAtom);
   const clearStates = () => {
     console.log("SignOut All States...");
 

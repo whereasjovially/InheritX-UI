@@ -5,13 +5,13 @@ import Header from "@/components/layout/header/Header";
 import HeroSection from "@/components/layout/heroSection/HeroSection";
 import { useAtom } from "jotai";
 import { isConnectedAtom } from "@/state/jotai";
-import { useSignOut } from "@/hooks/signOut";
 import {
   AbsoluteCenter,
   Box,
   Spinner,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useSignOut } from "@/hooks/useUtils/useSignOut";
 
 const Home = (children: { children: React.ReactNode }) => {
   //atoms
