@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [[ $# -lt 1 ]]; then
     echo "Argument 'local' or 'ic' expected, but found None. Continue with dev ..."
 fi
@@ -8,6 +10,18 @@ ENV=$1
 if [[ $ENV == "local" ]]; then
 
     echo "Switching the deployment to local replica"
+
+    #  transferring Some asset to Plug Account
+    cd ../InheritX || bash
+
+    dfx canister call icp_ledger icrc1_transfer '(record {  to = record {owner=principal "up5qv-6itp6-z5fuj-kfq2a-qohj4-ckibb-lq6tt-34j2c-i2d27-3gqlm-pqe";}; amount= 2_000_000_000 })'
+    dfx canister call ckbtc_ledger icrc1_transfer '(record {  to = record {owner=principal "up5qv-6itp6-z5fuj-kfq2a-qohj4-ckibb-lq6tt-34j2c-i2d27-3gqlm-pqe";}; amount= 2_000_000_000 })'
+
+    cd ../InheritX-UI || bash
+
+    dfx canister uninstall-code 2222s-4iaaa-aaaaf-ax2uq-cai >/dev/null 2>&1
+    dfx canister stop 2222s-4iaaa-aaaaf-ax2uq-cai >/dev/null 2>&1
+    dfx canister delete 2222s-4iaaa-aaaaf-ax2uq-cai >/dev/null 2>&1
 
     bash scripts/pre_deploy_local.sh
 
@@ -28,9 +42,16 @@ if [[ $ENV == "ic" ]]; then
     exit 0
 fi
 
-
 # if ENV is dev or not provided (using as default node deployment)
 echo "Switching the deployment to node dev"
+
+#  transferring Some asset to Plug Account
+cd ../InheritX || bash
+
+dfx canister call icp_ledger icrc1_transfer '(record {  to = record {owner=principal "up5qv-6itp6-z5fuj-kfq2a-qohj4-ckibb-lq6tt-34j2c-i2d27-3gqlm-pqe";}; amount= 2_000_000_000 })'
+dfx canister call ckbtc_ledger icrc1_transfer '(record {  to = record {owner=principal "up5qv-6itp6-z5fuj-kfq2a-qohj4-ckibb-lq6tt-34j2c-i2d27-3gqlm-pqe";}; amount= 2_000_000_000 })'
+
+cd ../InheritX-UI || bash
 
 bash scripts/pre_deploy_local.sh
 

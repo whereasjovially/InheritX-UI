@@ -121,7 +121,6 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text))],
         ['query'],
       ),
-    'set_will_canister_id' : IDL.Func([IDL.Text], [IDL.Text], []),
     'verify_icrc_controller' : IDL.Func(
         [IDL.Opt(IDL.Principal)],
         [IDL.Bool],

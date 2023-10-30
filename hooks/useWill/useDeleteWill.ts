@@ -26,7 +26,8 @@ export function useDeleteWill() {
       const actorWill: WILL = await createActor("will");
       const deleteWillResult: ManualReply_3 = await actorWill.delete_will(
         identifier,
-        willType
+        willType,
+        []
       );
       console.log(
         "🚀 ~ file: will.ts:164 ~ deleteWill ~ deleteWillResult:",

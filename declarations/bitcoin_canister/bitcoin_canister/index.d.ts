@@ -7,7 +7,7 @@ import type {
 import type { Principal } from "@dfinity/principal";
 import type { IDL } from "@dfinity/candid";
 
-import { _SERVICE } from './ckbtc_ledger.did';
+import { _SERVICE } from './bitcoin_canister.did';
 
 export declare const idlFactory: IDL.InterfaceFactory;
 export declare const canisterId: string;
@@ -47,6 +47,4 @@ export declare const createActor: (
  * Intialized Actor using default settings, ready to talk to a canister using its candid interface
  * @constructs {@link ActorSubClass}
  */
-export declare const ckbtc_ledger: ActorSubclass<_SERVICE>;
-
-export { _SERVICE };
+export declare const bitcoin_canister: ActorSubclass<_SERVICE>;

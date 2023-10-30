@@ -15,6 +15,17 @@ export const idlFactory = ({ IDL }) => {
     'errorMessageFromCanisterCall' : IDL.Text,
     'willNotExists' : IDL.Bool,
   });
+  const _InlineBTCClaimWillBtcClaimResult = IDL.Record({
+    'claimBTCMessage' : IDL.Text,
+    'claimBTCError' : IDL.Opt(IDL.Text),
+    'success' : IDL.Bool,
+  });
+  const BTCClaimWill = IDL.Variant({
+    'isClaimed' : IDL.Bool,
+    'claimError' : IDL.Text,
+    'tokenTickerNotSupported' : IDL.Bool,
+    'btcClaimResult' : _InlineBTCClaimWillBtcClaimResult,
+  });
   const _InlineICRCClaimWillCkbtcClaimResult = IDL.Record({
     'success' : IDL.Bool,
     'claimCKBTCMessage' : IDL.Text,
@@ -31,13 +42,23 @@ export const idlFactory = ({ IDL }) => {
     'icpClaimResult' : _InlineICRCClaimWillIcpClaimResult,
   });
   const ManualReply_1 = IDL.Variant({
+    'btc' : BTCClaimWill,
     'icrc' : ICRCClaimWill,
     'claimErrorFromProvider' : IDL.Text,
+    'addressNull' : IDL.Bool,
     'claimErrorFromCanisterCall' : IDL.Text,
     'claimError' : IDL.Bool,
     'willNotExists' : IDL.Bool,
     'unAuthorizedClaimer' : IDL.Bool,
     'willTypeNotSupported' : IDL.Bool,
+  });
+  const BTCCreateWillArgs = IDL.Record({
+    'heirs' : IDL.Principal,
+    'willName' : IDL.Text,
+    'willDescription' : IDL.Text,
+    'tokenTicker' : IDL.Text,
+    'amountInSats' : IDL.Nat,
+    'identifier' : IDL.Nat32,
   });
   const ICRCCreateWillArgs = IDL.Record({
     'heirs' : IDL.Principal,
@@ -47,17 +68,32 @@ export const idlFactory = ({ IDL }) => {
     'identifier' : IDL.Nat32,
     'amount' : IDL.Nat,
   });
-  const CreateWillArgs = IDL.Variant({ 'icrc' : ICRCCreateWillArgs });
-  const ICRCCreateWill = IDL.Variant({
+  const CreateWillArgs = IDL.Variant({
+    'btc' : BTCCreateWillArgs,
+    'icrc' : ICRCCreateWillArgs,
+  });
+  const BTCCreateWill = IDL.Variant({
     'identifierUsed' : IDL.Bool,
     'tokenTickerNotSupported' : IDL.Text,
     'success' : IDL.Bool,
     'userNotExists' : IDL.Bool,
   });
   const ManualReply_2 = IDL.Variant({
-    'icrc' : ICRCCreateWill,
+    'btc' : BTCCreateWill,
+    'icrc' : BTCCreateWill,
     'userNotExists' : IDL.Bool,
     'willTypeNotSupported' : IDL.Bool,
+  });
+  const _InlineBTCDeleteWillBtcRetainResult = IDL.Record({
+    'retainBTCError' : IDL.Opt(IDL.Text),
+    'retainBTCMessage' : IDL.Text,
+    'success' : IDL.Bool,
+  });
+  const BTCDeleteWill = IDL.Variant({
+    'isClaimed' : IDL.Bool,
+    'retainError' : IDL.Text,
+    'tokenTickerNotSupported' : IDL.Bool,
+    'btcRetainResult' : _InlineBTCDeleteWillBtcRetainResult,
   });
   const _InlineICRCDeleteWillIcpRetainResult = IDL.Record({
     'success' : IDL.Bool,
@@ -75,9 +111,11 @@ export const idlFactory = ({ IDL }) => {
     'tokenTickerNotSupported' : IDL.Bool,
   });
   const ManualReply_3 = IDL.Variant({
+    'btc' : BTCDeleteWill,
     'identifierUsed' : IDL.Bool,
     'icrc' : ICRCDeleteWill,
     'unAuthorizedTestator' : IDL.Bool,
+    'addressNull' : IDL.Bool,
     'willNotExists' : IDL.Bool,
     'userNotExists' : IDL.Bool,
     'willTypeNotSupported' : IDL.Bool,
@@ -133,12 +171,19 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'add_user_details' : IDL.Func([userDetailsArgs], [AddUserDetails], []),
-    'bitcoin_get_balance' : IDL.Func([IDL.Text], [IDL.Nat64], []),
     'canisterBalance' : IDL.Func([], [IDL.Nat64], ['query']),
     'check_death_by_identifier' : IDL.Func([IDL.Nat32], [ManualReply], []),
-    'claim_will' : IDL.Func([IDL.Nat32, IDL.Text], [ManualReply_1], []),
+    'claim_will' : IDL.Func(
+        [IDL.Nat32, IDL.Text, IDL.Opt(IDL.Text)],
+        [ManualReply_1],
+        [],
+      ),
     'create_will' : IDL.Func([CreateWillArgs, IDL.Text], [ManualReply_2], []),
-    'delete_will' : IDL.Func([IDL.Nat32, IDL.Text], [ManualReply_3], []),
+    'delete_will' : IDL.Func(
+        [IDL.Nat32, IDL.Text, IDL.Opt(IDL.Text)],
+        [ManualReply_3],
+        [],
+      ),
     'get_all_identifiers' : IDL.Func(
         [],
         [IDL.Vec(IDL.Tuple(IDL.Nat32, IDL.Principal))],
@@ -154,12 +199,14 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Vec(IDL.Float64)))],
         ['query'],
       ),
+    'get_bitcoin_canister_id' : IDL.Func([], [IDL.Text], ['query']),
     'get_heirs_wills_by_princicpal' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(IDL.Vec(IDL.Nat32))],
         ['query'],
       ),
     'get_icrc_canister_id' : IDL.Func([], [IDL.Text], ['query']),
+    'get_providers_canister_id' : IDL.Func([], [IDL.Text], ['query']),
     'get_testator_wills_by_princicpal' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(IDL.Vec(IDL.Nat32))],
@@ -187,7 +234,6 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'request_random_will_identifier' : IDL.Func([], [IDL.Nat32], []),
-    'set_icrc_canister_id' : IDL.Func([IDL.Text], [IDL.Text], []),
     'update_user_details' : IDL.Func(
         [userDetailsArgs],
         [UpdateUserDetails],

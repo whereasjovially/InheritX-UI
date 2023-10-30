@@ -101,38 +101,67 @@ export function WillForm() {
     return /^[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$/.test(input);
   }
 
+  function validateBTCAmount(amount: string) {
+    try {
+      let error;
+      if (!isNumeric(amount)) {
+        error = "No Numeric value is allowed";
+      }
+      if (!willType) {
+        error = "Please select will type before entering amount";
+      }
+      if (!assetType) {
+        error = "Please select asset before entering amount";
+      } else if (willType === "Bitcoin") {
+        if (assetType === "BTC") {
+          const amountInInt = Number(amount);
+          const amountInBigInt = humanToE8s(amountInInt)!;
+          if (amountInBigInt <= 2000) {
+            error = "Amount should be greater than 2000 sats";
+          }
+        }
+      }
+      return error;
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: WillForm.tsx:108 ~ validateBTCAmount ~ error:",
+        error
+      );
+    }
+  }
   function validateICRCAmount(amount: string) {
     try {
       let error;
-    if (!isNumeric(amount)) {
-      error = "No Numeric value is allowed";
-    }
-    if (!willType) {
-      error = "Please select will type before entering amount";
-    }
-    if (!assetType) {
-      error = "Please select asset before entering amount";
-    } else if (willType === "ICRC") {
-      if (assetType === "ICP") {
-        const amountInInt = Number(amount);
-        const amountInBigInt = humanToE8s(amountInInt)!;
-        if (amountInBigInt <= 10000) {
-          error = "Amount should be greater than 0.0001 ICP";
-        }
-      } else if (assetType === "ckBTC") {
-        const amountInInt = Number(amount);
-        const amountInBigInt = BigInt((amountInInt * 1e8).toString());
-        if (amountInBigInt <= 10) {
-          error = `Amount should be greater than 0.00000010 ckBTC`;
+      if (!isNumeric(amount)) {
+        error = "No Numeric value is allowed";
+      }
+      if (!willType) {
+        error = "Please select will type before entering amount";
+      }
+      if (!assetType) {
+        error = "Please select asset before entering amount";
+      } else if (willType === "ICRC") {
+        if (assetType === "ICP") {
+          const amountInInt = Number(amount);
+          const amountInBigInt = humanToE8s(amountInInt)!;
+          if (amountInBigInt <= 10000) {
+            error = "Amount should be greater than 0.0001 ICP";
+          }
+        } else if (assetType === "ckBTC") {
+          const amountInInt = Number(amount);
+          const amountInBigInt = BigInt((amountInInt * 1e8).toString());
+          if (amountInBigInt <= 10) {
+            error = `Amount should be greater than 0.00000010 ckBTC`;
+          }
         }
       }
-    }
-    return error;
+      return error;
     } catch (error) {
-      console.log("🚀 ~ file: WillForm.tsx:108 ~ validateICRCAmount ~ error:", error)
-      
+      console.log(
+        "🚀 ~ file: WillForm.tsx:108 ~ validateICRCAmount ~ error:",
+        error
+      );
     }
-    
   }
   async function willSubmit(willArgs: CreateWillArgsU) {
     if (willArgs.willType === "ICRC") {
@@ -498,28 +527,43 @@ export function WillForm() {
                       placeholder="Select option"
                     >
                       <option value="ICRC">ICRC-1</option>
-                      {/* <option value="BTC">Bitcoin</option> */}
+                      <option value="BTC">Bitcoin</option>
                     </Select>
                     <FormErrorMessage>{form.errors.willType}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
-              {/* {willType === "BTC" && (
+              {willType === "BTC" && (
                 <Field name="lastName">
                   {({ field, form }: any) => (
                     <FormControl
                       isRequired
                       isInvalid={form.errors.lastName && form.touched.lastName}
                     >
-                      <FormLabel>Identifier From BTC</FormLabel>
-                      <Box>{identifier}</Box>
+                      <Field name="amount" validate={validateICRCAmount}>
+                        {({ field, form }: any) => (
+                          <FormControl
+                            isRequired
+                            isInvalid={
+                              form.errors.amount && form.touched.amount
+                            }
+                          >
+                            <FormLabel>Enter Amount </FormLabel>
+                            <Input {...field} placeholder="1.0." />
+                            <FormErrorMessage>
+                              {form.errors.amount}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+
                       <FormErrorMessage>
                         {form.errors.lastName}
                       </FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
-              )} */}
+              )}
               {willType === "ICRC" && (
                 <>
                   <br />

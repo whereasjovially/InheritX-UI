@@ -32,11 +32,15 @@ icHostVar="NEXT_PUBLIC_IC_HOST="$icHost
 # Assigning Variables to Environment Variable
 echo $icHostVar >.env
 
-echo $willVar >>.env
-echo $providersVar >>.env
-echo $icrcVar >>.env
-# echo $btcVar >>.env
-echo $icpVar >>.env
-echo $ckBtcVar >>.env
+{
+
+    echo "$willVar"
+    echo "$providersVar"
+    echo "$icrcVar"
+    echo "$btcVar"
+    echo "$icpVar"
+    echo "$ckBtcVar"
+
+} >>.env
 
 echo "Pre Deployment Configs For IC Completed!"

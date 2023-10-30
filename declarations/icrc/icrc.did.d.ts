@@ -84,6 +84,5 @@ export interface _SERVICE {
   'icrc_icp_fee' : ActorMethod<[], ManualReply_3>,
   'icrc_icp_transfer' : ActorMethod<[number, Principal], ManualReply_4>,
   'list_canister_ids' : ActorMethod<[], Array<[string, string]>>,
-  'set_will_canister_id' : ActorMethod<[string], string>,
   'verify_icrc_controller' : ActorMethod<[[] | [Principal]], boolean>,
 }

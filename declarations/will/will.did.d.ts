@@ -3,7 +3,28 @@ import type { ActorMethod } from '@dfinity/agent';
 
 export type AddUserDetails = { 'userExists' : boolean } |
   { 'success' : boolean };
-export type CreateWillArgs = { 'icrc' : ICRCCreateWillArgs };
+export type BTCClaimWill = { 'isClaimed' : boolean } |
+  { 'claimError' : string } |
+  { 'tokenTickerNotSupported' : boolean } |
+  { 'btcClaimResult' : _InlineBTCClaimWillBtcClaimResult };
+export type BTCCreateWill = { 'identifierUsed' : boolean } |
+  { 'tokenTickerNotSupported' : string } |
+  { 'success' : boolean } |
+  { 'userNotExists' : boolean };
+export interface BTCCreateWillArgs {
+  'heirs' : Principal,
+  'willName' : string,
+  'willDescription' : string,
+  'tokenTicker' : string,
+  'amountInSats' : bigint,
+  'identifier' : number,
+}
+export type BTCDeleteWill = { 'isClaimed' : boolean } |
+  { 'retainError' : string } |
+  { 'tokenTickerNotSupported' : boolean } |
+  { 'btcRetainResult' : _InlineBTCDeleteWillBtcRetainResult };
+export type CreateWillArgs = { 'btc' : BTCCreateWillArgs } |
+  { 'icrc' : ICRCCreateWillArgs };
 export type GetHeirWills = { 'wills' : Array<Will> } |
   { 'noWillsExists' : boolean };
 export type GetTestatorWills = { 'userNotExists' : boolean } |
@@ -18,10 +39,6 @@ export type ICRCClaimWill = {
   { 'claimError' : string } |
   { 'tokenTickerNotSupported' : boolean } |
   { 'icpClaimResult' : _InlineICRCClaimWillIcpClaimResult };
-export type ICRCCreateWill = { 'identifierUsed' : boolean } |
-  { 'tokenTickerNotSupported' : string } |
-  { 'success' : boolean } |
-  { 'userNotExists' : boolean };
 export interface ICRCCreateWillArgs {
   'heirs' : Principal,
   'willName' : string,
@@ -38,19 +55,24 @@ export type ICRCDeleteWill = { 'isClaimed' : boolean } |
 export type ManualReply = { 'result' : boolean } |
   { 'errorMessageFromCanisterCall' : string } |
   { 'willNotExists' : boolean };
-export type ManualReply_1 = { 'icrc' : ICRCClaimWill } |
+export type ManualReply_1 = { 'btc' : BTCClaimWill } |
+  { 'icrc' : ICRCClaimWill } |
   { 'claimErrorFromProvider' : string } |
+  { 'addressNull' : boolean } |
   { 'claimErrorFromCanisterCall' : string } |
   { 'claimError' : boolean } |
   { 'willNotExists' : boolean } |
   { 'unAuthorizedClaimer' : boolean } |
   { 'willTypeNotSupported' : boolean };
-export type ManualReply_2 = { 'icrc' : ICRCCreateWill } |
+export type ManualReply_2 = { 'btc' : BTCCreateWill } |
+  { 'icrc' : BTCCreateWill } |
   { 'userNotExists' : boolean } |
   { 'willTypeNotSupported' : boolean };
-export type ManualReply_3 = { 'identifierUsed' : boolean } |
+export type ManualReply_3 = { 'btc' : BTCDeleteWill } |
+  { 'identifierUsed' : boolean } |
   { 'icrc' : ICRCDeleteWill } |
   { 'unAuthorizedTestator' : boolean } |
+  { 'addressNull' : boolean } |
   { 'willNotExists' : boolean } |
   { 'userNotExists' : boolean } |
   { 'willTypeNotSupported' : boolean };
@@ -82,6 +104,16 @@ export interface Will {
 }
 export type _AzleResult = { 'Ok' : Will } |
   { 'Err' : string };
+export interface _InlineBTCClaimWillBtcClaimResult {
+  'claimBTCMessage' : string,
+  'claimBTCError' : [] | [string],
+  'success' : boolean,
+}
+export interface _InlineBTCDeleteWillBtcRetainResult {
+  'retainBTCError' : [] | [string],
+  'retainBTCMessage' : string,
+  'success' : boolean,
+}
 export interface _InlineICRCClaimWillCkbtcClaimResult {
   'success' : boolean,
   'claimCKBTCMessage' : string,
@@ -111,20 +143,21 @@ export interface _SERVICE {
     undefined
   >,
   'add_user_details' : ActorMethod<[userDetailsArgs], AddUserDetails>,
-  'bitcoin_get_balance' : ActorMethod<[string], bigint>,
   'canisterBalance' : ActorMethod<[], bigint>,
   'check_death_by_identifier' : ActorMethod<[number], ManualReply>,
-  'claim_will' : ActorMethod<[number, string], ManualReply_1>,
+  'claim_will' : ActorMethod<[number, string, [] | [string]], ManualReply_1>,
   'create_will' : ActorMethod<[CreateWillArgs, string], ManualReply_2>,
-  'delete_will' : ActorMethod<[number, string], ManualReply_3>,
+  'delete_will' : ActorMethod<[number, string, [] | [string]], ManualReply_3>,
   'get_all_identifiers' : ActorMethod<[], Array<[number, Principal]>>,
   'get_all_wills' : ActorMethod<[], Array<[number, Will]>>,
   'get_all_willsT' : ActorMethod<[], Array<[Principal, Array<number>]>>,
+  'get_bitcoin_canister_id' : ActorMethod<[], string>,
   'get_heirs_wills_by_princicpal' : ActorMethod<
     [Principal],
     [] | [Uint32Array | number[]]
   >,
   'get_icrc_canister_id' : ActorMethod<[], string>,
+  'get_providers_canister_id' : ActorMethod<[], string>,
   'get_testator_wills_by_princicpal' : ActorMethod<
     [Principal],
     [] | [Uint32Array | number[]]
@@ -146,6 +179,5 @@ export interface _SERVICE {
   >,
   'report_death_by_base64Id' : ActorMethod<[number, string], ManualReply_4>,
   'request_random_will_identifier' : ActorMethod<[], number>,
-  'set_icrc_canister_id' : ActorMethod<[string], string>,
   'update_user_details' : ActorMethod<[userDetailsArgs], UpdateUserDetails>,
 }

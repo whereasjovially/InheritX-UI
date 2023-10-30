@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy:local":"bash scripts/deploy.sh local",
+    "deploy:dev":"bash scripts/deploy.sh",
+    "deploy:ic":"bash scripts/deploy.sh ic"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.0",
@@ -28,7 +31,7 @@
     "formik": "^2.4.5",
     "framer-motion": "^10.16.4",
     "jotai": "^2.4.1",
-    "next": "13.4.19",
+    "next": "latest",
     "postcss": "8.4.29",
     "random-bigint": "^0.0.1",
     "react": "^18.2.0",

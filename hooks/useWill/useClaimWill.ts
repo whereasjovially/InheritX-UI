@@ -26,7 +26,8 @@ export function useClaimWill() {
 
       const claimWillResult: ManualReply_1 = await actorWill.claim_will(
         identifier,
-        willType
+        willType,
+        []
       );
 
       if (

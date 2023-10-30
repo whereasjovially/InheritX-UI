@@ -6,12 +6,13 @@
 
 echo "Copying declarations from InheritX ... "
 
-cd ../InheritX
+cd ../InheritX || true
 
 cp -r declarations/ ../InheritX-UI/
 
 #  check the exit status
-if [ $? -eq 0 ]; then
+if  cp -r declarations/ ../InheritX-UI/; then
+
     echo "Declarations copied successfully"
 
 else

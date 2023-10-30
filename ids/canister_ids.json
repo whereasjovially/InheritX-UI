@@ -1,17 +1,20 @@
 {
-  "icrc": {
-    "ic": "awuug-kaaaa-aaaam-abt5a-cai"
-  },
   "providers": {
-    "ic": "a7x72-4iaaa-aaaam-abt4q-cai"
+    "local": "222l7-eqaaa-aaaar-aghea-cai"
+  },
+  "icrc": {
+    "local": "aboy3-giaaa-aaaar-aaaaq-cai"
   },
   "will": {
-    "ic": "arvss-hyaaa-aaaam-abt5q-cai"
+    "local": "22dcn-nyaaa-aaaaj-asjua-cai"
+  },
+  "btc": {
+    "local": "nq4qv-wqaaa-aaaaf-bhdgq-cai"
   },
   "icp_ledger": {
-    "ic": "ryjl3-tyaaa-aaaaa-aaaba-cai"
+    "local": "ryjl3-tyaaa-aaaaa-aaaba-cai"
   },
   "ckbtc_ledger": {
-    "ic": "mxzaz-hqaaa-aaaar-qaada-cai"
+    "local": "mxzaz-hqaaa-aaaar-qaada-cai"
   }
 }
