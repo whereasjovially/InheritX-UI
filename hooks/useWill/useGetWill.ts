@@ -2,6 +2,7 @@ import { WILL } from "@/configs/canistersService";
 import { Will, _AzleResult } from "@/declarations/will/will.did";
 import { createActor } from "@/services/createActor";
 import { showToast } from "@/utils/toast";
+import { convertNanosecondsToDate } from "@/utils/utils";
 import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -9,6 +10,8 @@ export function useGetWill() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [will, setWill] = useState<Will | null>(null);
+  const [timeStamp, setTimeStamp] = useState<string | null>(null);
+
   ///atoms
 
   const toast = useToast();
@@ -21,13 +24,16 @@ export function useGetWill() {
       const willDetailsResult: _AzleResult = await actorWill.get_will(
         identifier
       );
-      console.log(
-        "🚀 ~ file: will.ts:218 ~ fetchGetWill ~ willDetailsResult:",
-        willDetailsResult
-      );
+      console.log("🚀 ~ file: useGetWill.ts:27 ~ fetchGetWill ~ willDetailsResult:", willDetailsResult)
+  
 
       if ("Ok" in willDetailsResult) {
         setWill(willDetailsResult.Ok);
+        setTimeStamp(
+          String(
+            convertNanosecondsToDate(Number(willDetailsResult.Ok.timeStamp))
+          )
+        );
         setLoading(false);
       } else {
         setLoading(false);
@@ -54,5 +60,5 @@ export function useGetWill() {
       );
     }
   };
-  return [will, fetchGetWill, isLoading] as const;
+  return [will, fetchGetWill, isLoading, timeStamp] as const;
 }

@@ -4,15 +4,8 @@ import {
   icpLedgerIDL,
   ckBTCIDL,
   icrcIDL,
+  bitcoinCanisterIDL,
 } from "@/configs/canisterIDLs";
-
-import {
-  _ICP,
-  _CKBTC,
-  _ICRC,
-  _PROVIDERS,
-  _WILL,
-} from "@/configs/canistersService";
 
 import { actorPlug } from "./provider/plugActor";
 import { IDL } from "@dfinity/candid";
@@ -63,10 +56,10 @@ export async function createActor(canisterName: string) {
       idl = ckBTCIDL;
       return await chooseProviderActor({ canisterId, idl });
 
-    // case "btc":
-    //   canisterId = process.env.NEXT_PUBLIC_CANISTER_ID_BTC!;
-    //   idl = willIDL;
-    //   return await chooseProviderActor({ canisterId, idl });
+    case "bitcoin_canister":
+      canisterId = process.env.NEXT_PUBLIC_CANISTER_ID_BTC!;
+      idl = bitcoinCanisterIDL;
+      return await chooseProviderActor({ canisterId, idl });
 
     default:
       return null;

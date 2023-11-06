@@ -48,5 +48,5 @@ export declare const createActor: (
  * @constructs {@link ActorSubClass}
  */
 export declare const providers: ActorSubclass<_SERVICE>;
-
 export { _SERVICE };
+

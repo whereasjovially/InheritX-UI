@@ -11,7 +11,7 @@ export const CANISTER_WHITE_LIST: string[] = [
 
   process.env.NEXT_PUBLIC_CANISTER_ID_ICRC!,
 
-  // process.env.NEXT_PUBLIC_CANISTER_ID_BTC!,
+  process.env.NEXT_PUBLIC_CANISTER_ID_BTC!,
 
   process.env.NEXT_PUBLIC_CANISTER_ID_ICP_LEDGER!,
 

@@ -48,3 +48,5 @@ export declare const createActor: (
  * @constructs {@link ActorSubClass}
  */
 export declare const bitcoin_canister: ActorSubclass<_SERVICE>;
+
+export { _SERVICE };

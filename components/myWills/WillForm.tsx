@@ -23,13 +23,12 @@ import { CKBTC, ICP, ICRC, WILL } from "@/configs/canistersService";
 import { createActor } from "@/services/createActor";
 import {
   identifierAtom,
-  isUserExistsAtom,
   isWillFormOpenAtom,
   testatorWillsAtom,
 } from "@/state/jotai";
 import { useAtom } from "jotai";
 import { Principal } from "@dfinity/principal";
-import { e8sToHuman, humanToE8s } from "@/utils/e8s";
+import { humanToE8s } from "@/utils/e8s";
 import { transferWillData } from "./utils";
 import { CreateWillArgs, ManualReply_2 } from "@/declarations/will/will.did";
 import {
@@ -41,6 +40,7 @@ import {
   TransferResult as ckBTCTransferResult,
 } from "@/declarations/ckbtc/ckbtc/ckbtc_ledger.did";
 import { useUserInfo } from "@/hooks/useUser/useUserInfo";
+import DepositBTCForm from "./DepositBTCForm";
 
 export interface CreateWillArgsU {
   heirs: Principal;
@@ -58,6 +58,8 @@ export function WillForm() {
   const [principal] = useUserInfo();
   const [identifier, setIdentifier] = useAtom(identifierAtom);
   const [, setTestatorWills] = useAtom(testatorWillsAtom);
+  const [showDespositAddressComponent, setShowDespositAddressComponent] =
+    useState<boolean>(false);
 
   //local states
   const [willType, setWillType] = useState("");
@@ -110,17 +112,14 @@ export function WillForm() {
       if (!willType) {
         error = "Please select will type before entering amount";
       }
-      if (!assetType) {
-        error = "Please select asset before entering amount";
-      } else if (willType === "Bitcoin") {
-        if (assetType === "BTC") {
-          const amountInInt = Number(amount);
-          const amountInBigInt = humanToE8s(amountInInt)!;
-          if (amountInBigInt <= 2000) {
-            error = "Amount should be greater than 2000 sats";
-          }
-        }
+
+      const amountInInt = Number(amount);
+      const amountInBigInt = humanToE8s(amountInInt)!;
+      if (amountInBigInt <= 2000) {
+        error = "Amount should be greater than 2000 sats";
       }
+      setAssetType("BTC");
+      setWillType("BTC");
       return error;
     } catch (error) {
       console.log(
@@ -355,6 +354,62 @@ export function WillForm() {
         });
       }
     } else if (willArgs.willType === "BTC") {
+      try {
+        const willActor: WILL = await createActor("will");
+
+        const willObj: CreateWillArgs = {
+          btc: {
+            heirs: willArgs.heirs,
+            willName: willArgs.willName,
+            willDescription: willArgs.willDescription,
+            tokenTicker: willArgs.tokenTicker,
+            identifier: willArgs.identifier,
+            amountInSats: willArgs.amount,
+          },
+        };
+        const createWillResult: ManualReply_2 = await willActor.create_will(
+          willObj,
+          willArgs.willType
+        );
+        console.log(
+          "🚀 ~ file: WillForm.tsx:376 ~ willSubmit ~ createWillResult:",
+          createWillResult
+        );
+
+        if (
+          "btc" in createWillResult &&
+          "success" in createWillResult.btc &&
+          createWillResult.btc.success === true
+        ) {
+          setShowDespositAddressComponent(true);
+          setTestatorWills(null);
+        } else {
+          toast({
+            title: "Error occured.",
+            description: JSON.stringify(createWillResult, (key, value) => {
+              // <------------
+              return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
+            }),
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top",
+          });
+        }
+      } catch (error) {
+        console.log("🚀 ~ file: WillForm.tsx:398 ~ willSubmit ~ error:", error);
+        toast({
+          title: "Error occured In Bitcoin Will.",
+          description: JSON.stringify(error, (key, value) => {
+            // <------------
+            return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
+          }),
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+      }
     } else {
       console.log(willArgs);
     }
@@ -394,6 +449,13 @@ export function WillForm() {
     setAssetType(event.target.value);
   };
 
+  if (showDespositAddressComponent) {
+    return (
+      <>
+        <DepositBTCForm identifier={identifier} />
+      </>
+    );
+  }
   return (
     <Box className=" w-full sm:px-6">
       <Box className=" px-4 md:px-10 py-4 md:py-7  rounded-tl-lg rounded-tr-lg">
@@ -534,13 +596,15 @@ export function WillForm() {
                 )}
               </Field>
               {willType === "BTC" && (
-                <Field name="lastName">
+                <Field name="assetType">
                   {({ field, form }: any) => (
                     <FormControl
                       isRequired
-                      isInvalid={form.errors.lastName && form.touched.lastName}
+                      isInvalid={
+                        form.errors.assetType && form.touched.assetType
+                      }
                     >
-                      <Field name="amount" validate={validateICRCAmount}>
+                      <Field name="amount" validate={validateBTCAmount}>
                         {({ field, form }: any) => (
                           <FormControl
                             isRequired
@@ -549,7 +613,7 @@ export function WillForm() {
                             }
                           >
                             <FormLabel>Enter Amount </FormLabel>
-                            <Input {...field} placeholder="1.0." />
+                            <Input {...field} placeholder="1.0 BTC" />
                             <FormErrorMessage>
                               {form.errors.amount}
                             </FormErrorMessage>

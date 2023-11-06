@@ -36,5 +36,5 @@ InheritX is a blockchain-based application developed on <b>Internet Computer (IC
 3. Deploy Canisters (run the command in new terminal)
 
    ```bash
-   bash scripts/deploy.sh local
+   yarn deploy:local
    ```

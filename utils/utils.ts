@@ -27,3 +27,8 @@ export function truncatePrincipal(str?: string, maxLength?: number) {
 export function isNumeric(input: string): boolean {
   return /^[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?$/.test(input);
 }
+
+export function convertNanosecondsToDate(nanosecondsTimestamp: number): string {
+  const millisecondsTimestamp = nanosecondsTimestamp / 1000000;
+  return new Date(millisecondsTimestamp).toISOString().split("T")[0];
+}

@@ -25,6 +25,10 @@ export function useReportDeath() {
 
       const reportDeathResult: ManualReply_4 =
         await actorWill.report_death_by_base64Id(identifier, base64Id);
+      console.log(
+        "🚀 ~ file: useReportDeath.ts:27 ~ reportDeath ~ reportDeathResult:",
+        reportDeathResult
+      );
       if ("result" in reportDeathResult && reportDeathResult.result === true) {
         setLoading(false);
         setIsDied(true);
