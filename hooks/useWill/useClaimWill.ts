@@ -9,13 +9,11 @@ import { useState } from "react";
 
 export function useClaimWill() {
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
 
   ///atoms
   const [, setHeirsWills] = useAtom(heirsWillsAtom);
-  const [isClaimDetailsClose, setIsClaimDetailsClose] = useAtom(
-    isClaimDetailsCloseAtom
-  );
+  const [, setIsClaimDetailsClose] = useAtom(isClaimDetailsCloseAtom);
 
   const toast = useToast();
 
@@ -48,17 +46,7 @@ export function useClaimWill() {
       } else {
         setLoading(false);
 
-        showToast(
-          toast,
-          "Error Occured in Claiming Will",
-          JSON.stringify(claimWillResult, (key, value) => {
-            return typeof value === "bigint" || typeof value === "boolean"
-              ? ""
-              : value;
-          }),
-          "error",
-          "top"
-        );
+        showToast(toast, "Error Occured in Claiming Will", "", "error", "top");
       }
     } catch (error) {
       console.log(error);

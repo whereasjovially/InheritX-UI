@@ -34,3 +34,6 @@ export const heirsWillsAtom = atom<number[] | null>(null);
 export const isClaimDetailsCloseAtom = atom<boolean>(false);
 
 export const isDeleteDetailsCloseAtom = atom<boolean>(false);
+
+//atom used for disclaimer popup
+export const isDisClaimerOpenAtom = atom<boolean>(true);

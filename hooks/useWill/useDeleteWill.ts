@@ -11,13 +11,11 @@ import { showToast } from "@/utils/toast";
 
 export function useDeleteWill() {
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
 
   ///atoms
-  const [testatorWills, setTestatorWills] = useAtom(testatorWillsAtom);
-  const [isDeleteDetailsClose, setIsDeleteDetailsClose] = useAtom(
-    isDeleteDetailsCloseAtom
-  );
+  const [, setTestatorWills] = useAtom(testatorWillsAtom);
+  const [, setIsDeleteDetailsClose] = useAtom(isDeleteDetailsCloseAtom);
   const toast = useToast();
 
   const deleteWill = async (identifier: number, willType: string) => {
@@ -51,17 +49,7 @@ export function useDeleteWill() {
       } else {
         setLoading(false);
 
-        showToast(
-          toast,
-          "Error Occured in Deleting Will",
-          JSON.stringify(deleteWillResult, (key, value) => {
-            return typeof value === "bigint" || typeof value === "boolean"
-              ? ""
-              : value;
-          }),
-          "error",
-          "top"
-        );
+        showToast(toast, "Error Occured in Deleting Will", "", "error", "top");
       }
     } catch (error) {
       console.log(error);

@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 
 export function useGetP2PKHAddress() {
-  const [identifier, setIdentifier] = useAtom(identifierAtom);
+  const [identifier] = useAtom(identifierAtom);
   const [address, setAddress] = useState<string>("Loading...");
 
   const getP2PKHAddress = async () => {
@@ -24,11 +24,14 @@ export function useGetP2PKHAddress() {
         );
 
         setAddress(addressResult);
-      }else{
-        console.log("Identifier Not Found")
+      } else {
+        console.log("Identifier Not Found");
       }
     } catch (error) {
-      console.log("🚀 ~ file: useGetP2PKHAddress.ts:31 ~ getP2PKHAddress ~ error:", error)
+      console.log(
+        "🚀 ~ file: useGetP2PKHAddress.ts:31 ~ getP2PKHAddress ~ error:",
+        error
+      );
     }
   };
 

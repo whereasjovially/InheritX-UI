@@ -15,7 +15,6 @@ import {
   isDeleteDetailsCloseAtom,
 } from "@/state/jotai";
 import { useAtom } from "jotai";
-import { useState } from "react";
 
 export const useSignOut = () => {
   //all atom states

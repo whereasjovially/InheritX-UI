@@ -4,7 +4,6 @@ import { createActor } from "@/services/createActor";
 import { useState } from "react";
 
 export function useCheckDeath() {
-  const [error, setError] = useState<string | null>(null);
   const [isDied, setIsDied] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(false);
 

@@ -17,16 +17,21 @@ import { useRouter } from "next/navigation";
 import PlugConnectIcon from "@/icon";
 import { showToast } from "@/utils/toast";
 import { useSignOut } from "@/hooks/useUtils/useSignOut";
+import { useState } from "react";
+import Disclaimer from "./Disclaimer";
 
 export default function HeroSection() {
   const router = useRouter();
   const toast = useToast();
+
+  const [loadWallet, setLoadWallet] = useState<boolean>(false);
 
   const [, setConnected] = useAtom(isConnectedAtom);
   const [clearStates] = useSignOut();
 
   const PlugLogo = <PlugConnectIcon h="40px" />;
   const connect = async () => {
+    setLoadWallet(true);
     console.log("clearing states......");
     clearStates();
     const connection = await connectWallet();
@@ -40,6 +45,7 @@ export default function HeroSection() {
         "error",
         "top"
       );
+      setLoadWallet(false);
     }
     console.log(
       "🚀 ~ file: HeroSection.tsx:23 ~ connectWallet ~ connection:",
@@ -60,7 +66,7 @@ export default function HeroSection() {
             {" "}
             <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
               <Text
-                className="italic"
+                className="bold text-4xl font-serif"
                 as={"span"}
                 position={"relative"}
                 _after={{
@@ -77,7 +83,7 @@ export default function HeroSection() {
                 Inherit
               </Text>
               <Text
-                className="shadow shadow-transparent"
+                className="shadow shadow-transparent italic text-5xl"
                 color={"blue.400"}
                 as={"span"}
               >
@@ -87,7 +93,7 @@ export default function HeroSection() {
           </Center>
           <Center className={`sm:visible`}>
             <Text
-              className="italic"
+              className="font-sans"
               fontSize={{ base: "md", lg: "lg" }}
               color={"gray.700"}
             >
@@ -98,15 +104,17 @@ export default function HeroSection() {
           <Center className={`sm:visible`}>
             <Stack direction={{ base: "column", md: "row" }} spacing={4}>
               <Button
+                isDisabled={loadWallet}
+                loadingText="Connecting"
+                isLoading={loadWallet}
                 rightIcon={PlugLogo}
-                // shadow={"xl"}
-                className=" shadow hover:shadow-lg text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 mb-2"
-                // className="shadow hover:shadow-lg border-2 border-transparent border-blue	"
+                className="hover:border-0 font-sans text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-lg shadow-indigo-500/40 rounded  sm:ml-3  sm:mt-0 sm:m-0 justify-between px-3 py-3  focus:outline-none"
                 onClick={connect}
                 rounded={"lg"}
                 color={"black"}
                 _hover={{
-                  bg: "blue.200",
+                  bg: "#4b5563",
+                  color: "white",
                 }}
               >
                 Connect &nbsp;{" "}
@@ -120,9 +128,9 @@ export default function HeroSection() {
           alt={"Login Image"}
           objectFit={"contain"}
           src="https://digitalwill.com/images/wishes.png"
-          // src={`https://elements-cover-images-0.imgix.net/c243de7a-150c-4541-9d67-b4e16d078146?auto=compress%2Cformat&fit=max&w=900&s=c7cbb7cc81bb1744051ed82fef230c02`}
         />
       </Flex>
+      <Disclaimer />
     </Stack>
   );
 }

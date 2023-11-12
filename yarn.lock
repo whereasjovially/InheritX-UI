@@ -897,12 +897,34 @@
   resolved "https://registry.yarnpkg.com/@dfinity/candid/-/candid-0.19.3.tgz#edc3491572d293824b821ce3a4fc50f5b4714f4d"
   integrity sha512-yXfbLSWTeRd4G0bLLxYoDqpXH3Jim0P+1PPZOoktXNC1X1hB+ea3yrZebX75t4GVoQK7123F7mxWHiPjuV2tQQ==
 
+"@dfinity/ledger-icp@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dfinity/ledger-icp/-/ledger-icp-1.0.0.tgz#b82005f43a6514e8b6688dc52d0c7c9f2184abd6"
+  integrity sha512-T297uvqjhwmaSoJ7d2TDPGqZD9vUMfNF5K8+2tbD7apXa8j7cSnxgffdQNyeZH9u1R/ypeuw7yFeo+XNadqhAw==
+
+"@dfinity/ledger-icrc@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dfinity/ledger-icrc/-/ledger-icrc-1.0.0.tgz#876bfdb5a27bce529e2956246e0e996ea47aa372"
+  integrity sha512-bNctX1TaE+QuRaxyMMonguf4DU6CGeCZSmHwGROo9tj7dTU9qboPzKiDI0HV6c/ntAmWURglFjX4UNl/M2uXYg==
+
+"@dfinity/nns-proto@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dfinity/nns-proto/-/nns-proto-1.0.0.tgz#89a35388c81281bcfe5a0115f5069e0d943e520a"
+  integrity sha512-VQ4G5/Opio6TYXpbv6xHqsjpYPw25wKOOXaS7F10IvKAa0bxM9DDfsTpaULRNRkDKvK/Jol2bHLoh6NO1SrbDA==
+  dependencies:
+    google-protobuf "^3.21.2"
+
 "@dfinity/principal@^0.19.3":
   version "0.19.3"
   resolved "https://registry.yarnpkg.com/@dfinity/principal/-/principal-0.19.3.tgz#428cfca3d2d2de9e1433b3b33498fd595fb441d8"
   integrity sha512-+nixVvdGt7ECxRvLXDXsvU9q9sSPssBtDQ4bXa149SK6gcYcmZ6lfWIi3DJNqj3tGROxILVBsguel9tECappsA==
   dependencies:
     "@noble/hashes" "^1.3.1"
+
+"@dfinity/utils@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dfinity/utils/-/utils-1.0.0.tgz#86f07bc3846e775ebc641486ff963f7b12e06476"
+  integrity sha512-xpsAgsx5jJZcdIYVbSHJ9XiNTtNIEzu8PH6Z2ALfYzF5an6B1HHTOGmhGUfLFBiEbQAyGb0zULcqBUV6lFVlCg==
 
 "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
@@ -1054,6 +1076,13 @@
   version "8.52.0"
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.52.0.tgz#78fe5f117840f69dc4a353adf9b9cd926353378c"
   integrity sha512-mjZVbpaeMZludF2fsWLD0Z9gCref1Tk4i9+wddjRvpUNqqcndPkBD09N/Mapey0b3jaXbLm2kICwFv2E64QinA==
+
+"@headlessui/react@^1.7.17":
+  version "1.7.17"
+  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.17.tgz#a0ec23af21b527c030967245fd99776aa7352bc6"
+  integrity sha512-4am+tzvkqDSSgiwrsEpGWqgGo9dz8qU5M3znCkC4PgkpY4HcCZzEDEvozltGGGHIKl9jbXbZPSH5TWn4sWJdow==
+  dependencies:
+    client-only "^0.0.1"
 
 "@humanwhocodes/config-array@^0.11.13":
   version "0.11.13"
@@ -1726,7 +1755,7 @@ chokidar@^3.5.3:
   optionalDependencies:
     fsevents "~2.3.2"
 
-client-only@0.0.1:
+client-only@0.0.1, client-only@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
   integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
@@ -2555,6 +2584,11 @@ globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
+google-protobuf@^3.21.2:
+  version "3.21.2"
+  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.21.2.tgz#4580a2bea8bbb291ee579d1fefb14d6fa3070ea4"
+  integrity sha512-3MSOYFO5U9mPGikIYCzK0SaThypfGgS6bHqrUGXG3DPHCrb+txNqeEcns1W0lkGfk0rCyNXm7xB9rMxnCiZOoA==
+
 gopd@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/gopd/-/gopd-1.0.1.tgz#29ff76de69dac7489b7c0918a5788e56477c332c"
@@ -2912,6 +2946,11 @@ jotai@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.5.0.tgz#dcf4fcfe5e9503fa7d0292eb30eaa4225b01dea3"
   integrity sha512-iPJDFrhNw3KU4o4SSAESeZoW+nM1L/76VULXZWF23qmivBEcbAQjiF5n1W4Hn5dXAol4tmtEYe4HH7d9emEz0Q==
+
+js-sha256@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.10.1.tgz#b40104ba1368e823fdd5f41b66b104b15a0da60d"
+  integrity sha512-5obBtsz9301ULlsgggLg542s/jqtddfOpV5KJc4hajc9JV8GeY2gZHSVpYBn4nWqAUTJ9v+xwtbJ1mIBgIH5Vw==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

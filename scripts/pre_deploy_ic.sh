@@ -12,7 +12,7 @@ cp -r ids/canister_ids_prod.json ids/canister_ids.json
 willCanisterId=$(jq '.will.ic' ids/canister_ids.json)
 providersCanisterId=$(jq '.providers.ic' ids/canister_ids.json)
 icrcCanisterId=$(jq '.icrc.ic' ids/canister_ids.json)
-btcCanisterId=$(jq '.btc.ic' ids/canister_ids.json)
+btcCanisterId=$(jq '.bitcoin_canister.ic' ids/canister_ids.json)
 icpledgerCanisterId=$(jq '.icp_ledger.ic' ids/canister_ids.json)
 ckbtcledgerCanisterId=$(jq '.ckbtc_ledger.ic' ids/canister_ids.json)
 

@@ -17,10 +17,7 @@ import {
   BoxProps,
   FlexProps,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiMenu,
-} from "react-icons/fi";
+import { FiHome, FiMenu } from "react-icons/fi";
 import { TbJewishStar } from "react-icons/tb";
 import { SiAcclaim } from "react-icons/si";
 import { CgProfile } from "react-icons/cg";
@@ -38,8 +35,6 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Profile", icon: CgProfile, path: "/profile" },
   { name: "My Wills", icon: TbJewishStar, path: "/wills" },
   { name: "My Claims", icon: SiAcclaim, path: "/claims" },
-  // { name: "Favourites", icon: FiStar, path: "/about" },
-  // { name: "Settings", icon: FiSettings, path: "/about" },
 ];
 
 interface SidebarWithHeaderProps {
@@ -87,7 +82,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue("grey.500", "gray.900")}
+      bg={useColorModeValue("gray.300", "gray.900")}
       borderRight="0px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
       w={{ base: "full", md: 60 }}
@@ -95,19 +90,26 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+      <Flex h="20" alignItems="center" ml={5} justifyContent="space-between">
         <Text
-          fontSize="2xl"
+          className="font-serif font-bold text-slate-700 items-center    sm:ml-3  sm:mt-0 sm:m-0 justify-between px-0 py-3  focus:outline-none"
+          fontSize="3xl"
           fontFamily="monospace"
           fontWeight="bold"
-          textColor={"black"}
         >
-          iX
+          InheritX
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} path={link.path}>
+        <NavItem
+          key={link.name}
+          icon={link.icon}
+          path={link.path}
+          border={1}
+          borderColor={"white"}
+          className="text-slate-700 font-bold font-serif"
+        >
           {link.name}
         </NavItem>
       ))}
@@ -129,14 +131,17 @@ const NavItem = ({ icon, path, children, ...rest }: NavItemProps) => {
       _focus={{ boxShadow: "none" }}
     >
       <Flex
+        className="text-slate-700 "
         align="center"
-        p="4"
-        mx="4"
+        mt={0}
+        mb={5}
+        p="5"
+        mx="5"
         borderRadius="lg"
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.400",
+          bg: "#4b5563",
           color: "white",
         }}
         {...rest}
@@ -162,25 +167,15 @@ interface MobileProps extends FlexProps {
   signOut(): void;
 }
 const MobileNav = ({ signOut, onOpen, ...rest }: MobileProps) => {
-  const promptAlert: React.CSSProperties = {
-    // display: 'flex',
-    // flexDirection: 'column'
-    backgroundColor: "white",
-    fontWeight: "bold",
-    color: "black",
-    borderRadius: "lg",
-    padding: "10px",
-    boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.2)",
-    fontSize: "16px",
-  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
+      boxShadow={"md"}
+      className="border-l-2  shadow-indigo-500/40  border-slate-300"
       bg={useColorModeValue("grey.500", "gray.900")}
-      borderBottomWidth="2px"
       borderBottomColor={useColorModeValue("white.100", "gray.900")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
       {...rest}
@@ -195,19 +190,23 @@ const MobileNav = ({ signOut, onOpen, ...rest }: MobileProps) => {
 
       <Text
         display={{ base: "flex", md: "none" }}
-        fontSize="2xl"
+        fontSize="3xl"
         fontFamily="monospace"
         fontWeight="bold"
-        textColor={"black"}
+        className="text-slate-800"
       >
-        iX
+        InheritX
       </Text>
 
       <Button
         onClick={signOut}
         rightIcon={<PiSignOutBold />}
-        colorScheme="blue"
-        variant="outline"
+        className="hover:border-r-0 font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-lg shadow-indigo-500/40 rounded  sm:ml-3  sm:mt-0 sm:m-0 justify-between px-3 py-3  focus:outline-none"
+        rounded={"lg"}
+        _hover={{
+          bg: "#4b5563",
+          color: "white",
+        }}
       >
         Sign out
       </Button>

@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export function useReportDeath() {
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [isDied, setIsDied] = useState<boolean>(false);
 
   ///atoms
@@ -36,18 +36,9 @@ export function useReportDeath() {
         showToast(toast, "Death Report Verified", "", "success", "top");
       } else {
         setLoading(false);
+        // setIsDied(true);
 
-        showToast(
-          toast,
-          "Error Occured in Reporting Death",
-          JSON.stringify(reportDeathResult, (key, value) => {
-            return typeof value === "bigint" || typeof value === "boolean"
-              ? ""
-              : value;
-          }),
-          "error",
-          "top"
-        );
+        showToast(toast, "Death Report Not Verified", "", "error", "top");
       }
     } catch (error) {
       console.log(error);

@@ -16,8 +16,8 @@ export function truncatePrincipal(str?: string, maxLength?: number) {
     }
 
     const ellipsis = "...";
-    const leftPart = str!.slice(0, 5);
-    const rightPart = str!.slice(-3); // Get the last `midpoint` characters
+    const leftPart = str!.slice(0, 4);
+    const rightPart = str!.slice(-6); // Get the last `midpoint` characters
     return leftPart + ellipsis + rightPart;
   } catch (error) {
     console.log(error);

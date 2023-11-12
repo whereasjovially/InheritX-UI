@@ -7,7 +7,7 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 
 export function useGetBTCBalance() {
-  const [identifier, setIdentifier] = useAtom(identifierAtom);
+  const [identifier] = useAtom(identifierAtom);
 
   const [balance, setBalance] = useState<number>(0);
 
@@ -44,6 +44,7 @@ export function useGetBTCBalance() {
         title: "Error In Fetching BTC Balance.",
         description: JSON.stringify(error),
         status: "error",
+        position: "top",
         duration: 9000,
         isClosable: true,
       });

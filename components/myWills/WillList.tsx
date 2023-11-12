@@ -38,13 +38,9 @@ function WillList() {
           <Box
             as={"p"}
             fontSize="30"
-            className="text-sm  leading-none text-black"
+            className="text-slate-700 text-sm  leading-none "
           >
-            <Icon
-              fontSize="40"
-              color={"black"}
-              as={BsFillPatchExclamationFill}
-            />
+            <Icon fontSize="40" as={BsFillPatchExclamationFill} />
             &nbsp;&nbsp;<b>No Wills Found</b>
           </Box>
         </AbsoluteCenter>
@@ -53,29 +49,32 @@ function WillList() {
   } else if (testatorWills.length > 0 && testatorWills) {
     return (
       <>
-        <Box className="mt-0 shadow">
+        <Box className="mt-0  bg-transparent shadow">
           <TableContainer>
-            <Table colorScheme="teal">
-              {/* <TableCaption>List of Asset In a Given Portfolio</TableCaption> */}
+            <Table
+              size={"lg"}
+              className="bg-transparent"
+              colorScheme="facebook"
+            >
               <Thead>
                 <Tr>
-                  <Th>Sno</Th>
+                  <Th>S.no</Th>
                   <Spacer />
-                  <Th>UID</Th>
+                  <Th>Identifier</Th>
                   <Spacer />
                   <Th>Principal</Th>
+                  <Spacer />
+                  <Th></Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {testatorWills.map((item, index) => (
-                  <Tr key={index + 1}>
+                  <Tr
+                    className=" hover:border-r-0 font-sans text-slate-700 border-b-2 border-r-2 border-transparent items-center shadow-lg hover:shadow-indigo-500/40 rounded  sm:ml-3  sm:mt-0 sm:m-0 justify-between px-3 py-3  focus:outline-none"
+                    key={index + 1}
+                  >
                     {" "}
-                    <Td>
-                      {/* <Link href={`/asset?name=${item.name}&asset_name=${item.asset_name}`}> */}
-                      {index + 1}
-                      {/* </Link> */}
-                    </Td>{" "}
-                    <Spacer />
+                    <Td>{index + 1}</Td> <Spacer />
                     <Td>{item}</Td> <Spacer />
                     <Td>{truncatePrincipal(principal!, 5)}</Td> <Spacer />
                     <Td>

@@ -1,85 +1,153 @@
 "use client";
 
-import { plugPrincipal } from "@/components/auth/provider/Plug";
 import { useUserInfo } from "@/hooks/useUser/useUserInfo";
-import { Box, Icon, useColorModeValue } from "@chakra-ui/react";
-import Link from "next/link";
+import { useTotalWillsC, useTotalWillsT } from "@/hooks/useWill/useTotalWill";
+import ckBTCLogo from "@/public/ckbtc.svg";
+import icpLogo from "@/public/icp.svg";
+import { getWalletBalance } from "@/utils/getBalance";
+import { addressFromPrincipal } from "@/utils/identifier2Address";
+import { truncatePrincipal } from "@/utils/utils";
+import { Box, Heading, useColorModeValue } from "@chakra-ui/react";
+import { Principal } from "@dfinity/principal";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import { CgProfile } from "react-icons/cg";
-import { SiAcclaim } from "react-icons/si";
-import { TbJewishStar } from "react-icons/tb";
 
 export default function Home() {
   const [principal, setPrincipal] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [icpBalance, setICPBalance] = useState<string>("0");
+  const [ckBTCBalance, setckBTCBalance] = useState<string>("0");
+
+  const [heirsWillsCount, fetchHeirsWillsCount, isLoadingC, errorC] =
+    useTotalWillsC();
+  const [testatorWillsCount, fetchTestatorWillsCount, isLoadingT, errorT] =
+    useTotalWillsT();
+  const [
+    principalUser,
+    firstNames,
+    lastName,
+    sex,
+    birthDate,
+    birthLocationCode,
+    isLoading,
+    error,
+  ] = useUserInfo();
 
   useEffect(() => {
     const requestPlugPrincipal = async () => {
-      setPrincipal(await plugPrincipal());
+      try {
+        setPrincipal(
+          truncatePrincipal((await window.ic.plug.getPrincipal()).toString())!
+        );
+        setAddress(
+          truncatePrincipal(
+            addressFromPrincipal(
+              Principal.fromText(
+                (await window.ic.plug.getPrincipal()).toString()!
+              ),
+              0
+            )
+          )!
+        );
+        setckBTCBalance(
+          await getWalletBalance(
+            "ckBTC",
+            Principal.fromText(
+              (await window.ic.plug.getPrincipal()).toString()!
+            )
+          )
+        );
+        setICPBalance(
+          await getWalletBalance(
+            "ICP",
+            Principal.fromText(
+              (await window.ic.plug.getPrincipal()).toString()!
+            )
+          )
+        );
+      } catch (error) {
+        console.log(
+          "🚀 ~ file: page.tsx:40 ~ requestPlugPrincipal ~ error:",
+          error
+        );
+      }
     };
     requestPlugPrincipal();
+    fetchHeirsWillsCount();
+    fetchTestatorWillsCount();
   }, []);
+
   return (
-    <Box bg={useColorModeValue("gray.300", "gray.900")}>
-      <Box className="pb-20">
-        <Box className="mx-auto bg-gradient-to-l  h-96">
-          <Box className="mx-auto container w-full flex flex-col justify-center items-center">
-            <Box className="flex justify-center items-center flex-col">
-              <Box className="mt-20">
-                <h3 className="lg:text-6xl md:text-5xl text-4xl font-black leading-10 italic text-black">
-                  Welcome Home
-                </h3>
-              </Box>
-              <Box className="mt-6 mx-2 md:mx-0 text-center">
-                <p className="lg:text-lg md:text-base leading-6 text-sm  text-black">
-                  {principal && <>Principal : {principal}</>}
-                </p>
-              </Box>
+    <Box
+      bg={useColorModeValue("gray.300", "gray.900")}
+      className="border-b-0 border-r-4 border-slate-400  shadow-sm "
+    >
+      <Box className="  font-sans text-slate-500 border-b-2  border-slate-400  shadow-sm rounded-sm    px-3 py-3  focus:outline-none  sm:mx-0 mt-0 flex justify-between shadow-indigo-500/40">
+        <Heading className="text-slate-700 px-5 lg:text-5xl text-3xl mb-0 mt-10 font-bold font-serif">
+          Hello{lastName ? `, ${lastName}` : ""}!
+        </Heading>
+
+        <Box className="font-mono  text-slate-900  grid justify-items-end font-extralight gap-y-4 text-md">
+          <Box>Principal: {principal}</Box>
+          <Box>Account ID: {address}</Box>
+        </Box>
+      </Box>
+
+      <Box className=" font-sans  border-b-4  border-slate-400  shadow-md rounded-sm     focus:outline-none  mt-0  shadow-indigo-500/40">
+        <Box className="  font-sans text-slate-500 border-b-0  border-slate-400  shadow-sm rounded-sm   px-3 py-3  focus:outline-none  sm:mx-0 mt-0 flex justify-between shadow-indigo-500/40">
+          <Heading className="underline text-slate-700 px-5   text-xl lg:text-3xl mb-0 mt-5 font-bold font-sans">
+            Balance
+          </Heading>
+
+          <Box className="font-mono  text-slate-900  grid justify-items-end font-extralight gap-y-5 text-md">
+            <Box className="flex flex-row-1 gap-4">
+              <Image
+                className=""
+                height={35}
+                width={35}
+                alt="ckBTC"
+                src={icpLogo}
+              />
+
+              <Box className="mb-0 text-slate-700"> &nbsp; {icpBalance}</Box>
+            </Box>
+
+            <Box className="flex flex-row-1 justify-start gap-4 ">
+              <Image
+                className="pr-2"
+                height={35}
+                width={35}
+                alt="ckBTC"
+                src={ckBTCLogo}
+              />
+              <Box className="mb-0 text-slate-700">&nbsp;{ckBTCBalance}</Box>
             </Box>
           </Box>
         </Box>
-        <Box className="mx-auto container md:-mt-28 -mt-20 flex justify-center items-center">
-          <Box className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-x-2 gap-y-2 lg:gap-x-6 md:gap-x-6 md:gap-y-6">
+
+        <Box className="mb-32 sm:mb-36 mt-24 grid grid-cols-1 grid-rows-1  content-between ">
+          <Box className=" flex flex-row  gap-x-40 gap-y-50 justify-center  ">
             <Box
               bg={useColorModeValue("gray.300", "gray.900")}
-              className="shadow-lg flex justify-center flex-col items-center w-36 h-36 md:w-44 md:h-48 lg:w-56 lg:h-56  rounded-2xl"
+              className=" flex justify-center flex-col items-center w-36 h-36 md:w-44 md:h-48 lg:w-56 lg:h-48 font-sans text-slate-500 border-b-4  border-slate-400  shadow-md rounded-xl shadow-indigo-500/40   sm:ml-3  sm:mt-0 sm:m-0  px-3 py-3  focus:outline-none"
             >
-              <Link href={"/profile"}>
-                <h2 className="lg:text-5xl md:text-4xl text-2xl font-extrabold leading-10 text-center text-gray-800">
-                  <Icon as={CgProfile} />
-                </h2>
-                <p className="mt-4 text-sm md:text-base lg:text-lg leading-none text-center text-gray-600">
-                  {" "}
-                  Profile
-                </p>
-              </Link>{" "}
+              <h2 className="lg:text-5xl font-serif md:text-4xl text-lg font-extrabold leading-10 text-center text-gray-800">
+                {testatorWillsCount}
+              </h2>
+              <p className="mt-4 font-bold font-sans   text-sm md:text-base lg:text-lg leading-none text-center text-slate-700">
+                Wills
+              </p>
             </Box>
             <Box
               bg={useColorModeValue("gray.300", "gray.900")}
-              className="shadow-lg flex justify-center flex-col items-center w-36 h-36 md:w-44 md:h-48 lg:w-56 lg:h-56  rounded-2xl"
+              className=" flex justify-center flex-col items-center w-36 h-36 md:w-44 md:h-48 lg:w-56 lg:h-48   font-sans text-slate-500 border-b-4  border-slate-400  shadow-md rounded-xl shadow-indigo-500/40   sm:ml-3  sm:mt-0 sm:m-0  px-3 py-3  focus:outline-none"
             >
-              <Link href={"/wills"}>
-                <h2 className="lg:text-5xl md:text-4xl text-2xl font-extrabold leading-10 text-center text-gray-800">
-                  <Icon as={TbJewishStar} />
-                </h2>
-                <p className="mt-4 text-sm md:text-base lg:text-lg leading-none text-center text-gray-600">
-                  {" "}
-                  Wills
-                </p>
-              </Link>
-            </Box>
-            <Box
-              bg={useColorModeValue("gray.300", "gray.900")}
-              className="shadow-lg flex justify-center flex-col items-center w-36 h-36 md:w-44 md:h-48 lg:w-56 lg:h-56  rounded-2xl"
-            >
-              <Link href={"/claims"}>
-                <h2 className="lg:text-5xl md:text-4xl text-2xl font-extrabold leading-10 text-center text-gray-800">
-                  <Icon as={SiAcclaim} />
-                </h2>
-                <p className="mt-4 text-sm md:text-base lg:text-lg leading-none text-center text-gray-600">
-                  {" "}
-                  Claims
-                </p>
-              </Link>
+              <h2 className="lg:text-5xl font-serif md:text-4xl text-lg font-extrabold leading-10 text-center text-gray-800">
+                {heirsWillsCount}
+              </h2>
+              <p className="mt-4 font-bold font-sans text-sm md:text-base lg:text-lg leading-none text-center text-slate-700">
+                Claims
+              </p>
             </Box>
           </Box>
         </Box>

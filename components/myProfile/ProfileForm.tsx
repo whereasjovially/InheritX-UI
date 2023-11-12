@@ -26,7 +26,6 @@ import {
   firstNamesAtom,
   isProfileFormOpenAtom,
   lastNameAtom,
-  principalAtom,
   sexAtom,
 } from "@/state/jotai";
 import { useAtom } from "jotai";
@@ -63,7 +62,7 @@ export function ProfileForm() {
   }
 
   return (
-    <Box className=" w-full sm:px-6">
+    <Box className="mb-0 font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-lg shadow-indigo-500/40 rounded   justify-between px-3 py-3  focus:outline-none w-full sm:px-6">
       <Box className=" px-4 md:px-10 py-4 md:py-7  rounded-tl-lg rounded-tr-lg">
         <Formik
           initialValues={{
@@ -90,8 +89,14 @@ export function ProfileForm() {
                       form.errors.firstNames && form.touched.firstNames
                     }
                   >
-                    <FormLabel>First name(s)</FormLabel>
-                    <Input {...field} placeholder="name1,name2,.." />
+                    <FormLabel className="font-serif font-bold">
+                      First name(s)
+                    </FormLabel>
+                    <Input
+                      {...field}
+                      className="font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
+                      placeholder="name1,name2,.."
+                    />
                     <FormErrorMessage>
                       {form.errors.firstNames}
                     </FormErrorMessage>
@@ -105,8 +110,14 @@ export function ProfileForm() {
                     isRequired
                     isInvalid={form.errors.lastName && form.touched.lastName}
                   >
-                    <FormLabel>Last Name</FormLabel>
-                    <Input {...field} placeholder="name" />
+                    <FormLabel className="font-bold font-serif">
+                      Last Name
+                    </FormLabel>
+                    <Input
+                      {...field}
+                      className="font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
+                      placeholder="name"
+                    />
                     <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
                   </FormControl>
                 )}
@@ -118,8 +129,12 @@ export function ProfileForm() {
                     isRequired
                     isInvalid={form.errors.sex && form.touched.sex}
                   >
-                    <FormLabel> Sex</FormLabel>
-                    <Input {...field} placeholder="F/M" />
+                    <FormLabel className="font-bold font-serif"> Sex</FormLabel>
+                    <Input
+                      {...field}
+                      className="font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
+                      placeholder="F/M"
+                    />
                     <FormErrorMessage>{form.errors.sex}</FormErrorMessage>
                   </FormControl>
                 )}
@@ -131,8 +146,15 @@ export function ProfileForm() {
                     isRequired
                     isInvalid={form.errors.birthDate && form.touched.birthDate}
                   >
-                    <FormLabel> Birth Date</FormLabel>
-                    <Input {...field} placeholder="YYYY-MM-DD" />
+                    <FormLabel className="font-bold font-serif">
+                      {" "}
+                      Birth Date
+                    </FormLabel>
+                    <Input
+                      {...field}
+                      className="font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
+                      placeholder="YYYY-MM-DD"
+                    />
                     <FormErrorMessage>{form.errors.birthDate}</FormErrorMessage>
                   </FormControl>
                 )}
@@ -150,8 +172,15 @@ export function ProfileForm() {
                       form.touched.birthLocationCode
                     }
                   >
-                    <FormLabel> Birth Postal Code</FormLabel>
-                    <Input {...field} placeholder="12345" />
+                    <FormLabel className="font-bold font-serif">
+                      {" "}
+                      Birth Postal Code
+                    </FormLabel>
+                    <Input
+                      {...field}
+                      className="font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
+                      placeholder="12345"
+                    />
                     <FormErrorMessage>
                       {form.errors.birthLocationCode}
                     </FormErrorMessage>
@@ -164,6 +193,13 @@ export function ProfileForm() {
                 <Center>
                   {" "}
                   <Button
+                    isDisabled={props.isSubmitting}
+                    loadingText="Submitting..."
+                    _hover={{
+                      bg: "#4b5563",
+                      color: "white",
+                    }}
+                    className="hover:border-r-0  font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-lg shadow-indigo-500/40 rounded   justify-between px-3 py-3  focus:outline-none"
                     mt={4}
                     colorScheme="teal"
                     isLoading={props.isSubmitting}
@@ -175,12 +211,17 @@ export function ProfileForm() {
                 <Center>
                   {" "}
                   <Button
+                    _hover={{
+                      bg: "#4b5563",
+                      color: "white",
+                    }}
+                    className="hover:border-r-0  font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-lg shadow-indigo-500/40 rounded  sm:ml-3   justify-between px-3 py-3  focus:outline-none"
                     mt={4}
                     onClick={() => {
                       setOpen(false);
                     }}
                     colorScheme="teal"
-                    // isLoading={props.isSubmitting}
+                    isDisabled={props.isSubmitting}
                     type="submit"
                   >
                     Cancel

@@ -8,6 +8,9 @@
   "will": {
     "ic": "arvss-hyaaa-aaaam-abt5q-cai"
   },
+  "bitcoin_canister": {
+    "ic": "xtlu4-6qaaa-aaaam-abx5q-cai"
+  },
   "icp_ledger": {
     "ic": "ryjl3-tyaaa-aaaaa-aaaba-cai"
   },

@@ -1,8 +1,3 @@
-// import {
-//   AddUserDetails,
-//   UpdateUserDetails,
-//   userDetailsArgs,
-// } from "@/declarations/will/will.did";
 import {
   Box,
   Button,
@@ -107,7 +102,7 @@ export function WillForm() {
     try {
       let error;
       if (!isNumeric(amount)) {
-        error = "No Numeric value is allowed";
+        error = "Non-numeric values are not allowed";
       }
       if (!willType) {
         error = "Please select will type before entering amount";
@@ -132,7 +127,7 @@ export function WillForm() {
     try {
       let error;
       if (!isNumeric(amount)) {
-        error = "No Numeric value is allowed";
+        error = "Non-numeric values are not allowed";
       }
       if (!willType) {
         error = "Please select will type before entering amount";
@@ -141,16 +136,26 @@ export function WillForm() {
         error = "Please select asset before entering amount";
       } else if (willType === "ICRC") {
         if (assetType === "ICP") {
-          const amountInInt = Number(amount);
-          const amountInBigInt = humanToE8s(amountInInt)!;
-          if (amountInBigInt <= 10000) {
-            error = "Amount should be greater than 0.0001 ICP";
+          let decimalRegexICP = /^\d+(\.\d{1,4})?$/;
+          if (!decimalRegexICP.test(amount)) {
+            error = "Value should >=0.0001 ICP";
+          } else {
+            const amountInInt = Number(amount);
+            const amountInBigInt = humanToE8s(amountInInt)!;
+            if (amountInBigInt <= 10000) {
+              error = "Amount should be greater than 0.0001 ICP";
+            }
           }
         } else if (assetType === "ckBTC") {
-          const amountInInt = Number(amount);
-          const amountInBigInt = BigInt((amountInInt * 1e8).toString());
-          if (amountInBigInt <= 10) {
-            error = `Amount should be greater than 0.00000010 ckBTC`;
+          let decimalRegexckBTC = /^\d+(\.\d{1,4})?$/;
+          if (!decimalRegexckBTC.test(amount)) {
+            error = "Value should >=0.0001 ckBTC";
+          } else {
+            const amountInInt = Number(amount);
+            const amountInBigInt = humanToE8s(amountInInt)!;
+            if (amountInBigInt <= 1000) {
+              error = `Amount should be greater than 0.0001 ckBTC`;
+            }
           }
         }
       }
@@ -217,11 +222,8 @@ export function WillForm() {
 
             if ("Err" in transfer) {
               toast({
-                title: "Error While trasferring ICP to Canister.",
-                description: JSON.stringify(transfer, (key, value) => {
-                  // <------------
-                  return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-                }),
+                title: "Error Occured in Transfer of ICP to Canister.",
+
                 status: "error",
                 duration: 9000,
                 isClosable: true,
@@ -231,11 +233,8 @@ export function WillForm() {
               setTestatorWills(null);
             } else if ("Ok" in transfer) {
               toast({
-                title: "Will Created Sucesfully",
-                description: JSON.stringify(transfer, (key, value) => {
-                  // <------------
-                  return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-                }),
+                title: "Will Created!",
+
                 status: "success",
                 duration: 9000,
                 isClosable: true,
@@ -245,11 +244,8 @@ export function WillForm() {
               setTestatorWills(null);
             } else {
               toast({
-                title: "Error While trasferring ICP to Canister.",
-                description: JSON.stringify(transfer, (key, value) => {
-                  // <------------
-                  return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-                }),
+                title: "Error Occured in transfer of ICP",
+
                 status: "error",
                 duration: 9000,
                 isClosable: true,
@@ -284,11 +280,8 @@ export function WillForm() {
 
             if ("Err" in transfer) {
               toast({
-                title: "Error While trasferring ckBTC to Canister.",
-                description: JSON.stringify(transfer, (key, value) => {
-                  // <------------
-                  return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-                }),
+                title: "Error Occured in Transfer of ckBTC to Canister.",
+
                 status: "error",
                 duration: 9000,
                 isClosable: true,
@@ -298,11 +291,8 @@ export function WillForm() {
               setTestatorWills(null);
             } else if ("Ok" in transfer) {
               toast({
-                title: "Will Created Sucesfully",
-                description: JSON.stringify(transfer, (key, value) => {
-                  // <------------
-                  return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-                }),
+                title: "Will Created!",
+
                 status: "success",
                 duration: 9000,
                 isClosable: true,
@@ -312,11 +302,8 @@ export function WillForm() {
               setTestatorWills(null);
             } else {
               toast({
-                title: "Error While trasferring ckBTC to Canister.",
-                description: JSON.stringify(transfer, (key, value) => {
-                  // <------------
-                  return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-                }),
+                title: "Error Occured in Transfer of ckBTC.",
+
                 status: "error",
                 duration: 9000,
                 isClosable: true,
@@ -329,10 +316,7 @@ export function WillForm() {
         } else {
           toast({
             title: "Error occured.",
-            description: JSON.stringify(createWillResult, (key, value) => {
-              // <------------
-              return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-            }),
+
             status: "error",
             duration: 9000,
             isClosable: true,
@@ -343,10 +327,7 @@ export function WillForm() {
         console.log("🚀 ~ file: WillForm.tsx:229 ~ willSubmit ~ error:", error);
         toast({
           title: "Error occured.",
-          description: JSON.stringify(error, (key, value) => {
-            // <------------
-            return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-          }),
+
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -386,10 +367,7 @@ export function WillForm() {
         } else {
           toast({
             title: "Error occured.",
-            description: JSON.stringify(createWillResult, (key, value) => {
-              // <------------
-              return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-            }),
+
             status: "error",
             duration: 9000,
             isClosable: true,
@@ -400,10 +378,7 @@ export function WillForm() {
         console.log("🚀 ~ file: WillForm.tsx:398 ~ willSubmit ~ error:", error);
         toast({
           title: "Error occured In Bitcoin Will.",
-          description: JSON.stringify(error, (key, value) => {
-            // <------------
-            return typeof value === "bigint" ? value.toString() : value; // <--- SOLUTION
-          }),
+
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -468,11 +443,6 @@ export function WillForm() {
             tokenTicker: null,
             identifier: identifier,
             amount: null,
-
-            //For BTC later on..
-            // btc:{
-
-            // }
           }}
           onSubmit={async (
             values: any,
@@ -496,7 +466,6 @@ export function WillForm() {
             } else {
               toast({
                 title: "Error Occured in Creating Will",
-                description: JSON.stringify(values),
                 status: "error",
                 duration: 9000,
                 isClosable: true,
@@ -520,8 +489,10 @@ export function WillForm() {
                       form.errors.identifier && form.touched.identifier
                     }
                   >
-                    <FormLabel>Will UId</FormLabel>
-                    <Box>{identifier}</Box>
+                    <FormLabel className="font-serif ">Identifier</FormLabel>
+                    <Box className="py-3 font-mono px-4  text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none">
+                      {identifier}
+                    </Box>
                     <FormErrorMessage>
                       {form.errors.identifier}
                     </FormErrorMessage>
@@ -535,8 +506,12 @@ export function WillForm() {
                     isRequired
                     isInvalid={form.errors.willName && form.touched.willName}
                   >
-                    <FormLabel>Will Name</FormLabel>
-                    <Input {...field} placeholder="My Will XYZ" />
+                    <FormLabel className="font-serif"> Name</FormLabel>
+                    <Input
+                      {...field}
+                      className="py-5 font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
+                      placeholder="My Will XYZ"
+                    />
                     <FormErrorMessage>{form.errors.willName}</FormErrorMessage>
                   </FormControl>
                 )}
@@ -551,8 +526,12 @@ export function WillForm() {
                       form.touched.willDescription
                     }
                   >
-                    <FormLabel>Will Description</FormLabel>
-                    <Input {...field} placeholder="My Will XYZ" />
+                    <FormLabel className="font-serif">Description</FormLabel>
+                    <Input
+                      {...field}
+                      className="py-5 font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
+                      placeholder="My Will XYZ"
+                    />
                     <FormErrorMessage>
                       {form.errors.willDescription}
                     </FormErrorMessage>
@@ -566,9 +545,12 @@ export function WillForm() {
                     isRequired
                     isInvalid={form.errors.heirs && form.touched.heirs}
                   >
-                    <FormLabel>Heirs Principal</FormLabel>
+                    <FormLabel className="font-serif">
+                      Heirs Principal
+                    </FormLabel>
                     <Input
                       {...field}
+                      className="py-5 font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
                       placeholder="2fq7c-slacv-26cgz-vzbx2-2jrcs-5edph-i5s2j-tck77-c3rlz-iobzx-mqe"
                     />
                     <FormErrorMessage>{form.errors.heirs}</FormErrorMessage>
@@ -582,13 +564,14 @@ export function WillForm() {
                     isRequired
                     isInvalid={form.errors.willType && form.touched.willType}
                   >
-                    <FormLabel>Will Type</FormLabel>
+                    <FormLabel className="font-serif">Ledger </FormLabel>
                     <Select
                       {...field}
                       onChange={handleWillTypeChange}
+                      className="font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
                       placeholder="Select option"
                     >
-                      <option value="ICRC">ICRC-1</option>
+                      <option value="ICRC">ICRC</option>
                       <option value="BTC">Bitcoin</option>
                     </Select>
                     <FormErrorMessage>{form.errors.willType}</FormErrorMessage>
@@ -596,37 +579,46 @@ export function WillForm() {
                 )}
               </Field>
               {willType === "BTC" && (
-                <Field name="assetType">
-                  {({ field, form }: any) => (
-                    <FormControl
-                      isRequired
-                      isInvalid={
-                        form.errors.assetType && form.touched.assetType
-                      }
-                    >
-                      <Field name="amount" validate={validateBTCAmount}>
-                        {({ field, form }: any) => (
-                          <FormControl
-                            isRequired
-                            isInvalid={
-                              form.errors.amount && form.touched.amount
-                            }
-                          >
-                            <FormLabel>Enter Amount </FormLabel>
-                            <Input {...field} placeholder="1.0 BTC" />
-                            <FormErrorMessage>
-                              {form.errors.amount}
-                            </FormErrorMessage>
-                          </FormControl>
-                        )}
-                      </Field>
+                <>
+                  <br />{" "}
+                  <Field name="assetType">
+                    {({ field, form }: any) => (
+                      <FormControl
+                        isRequired
+                        isInvalid={
+                          form.errors.assetType && form.touched.assetType
+                        }
+                      >
+                        <Field name="amount" validate={validateBTCAmount}>
+                          {({ field, form }: any) => (
+                            <FormControl
+                              isRequired
+                              isInvalid={
+                                form.errors.amount && form.touched.amount
+                              }
+                            >
+                              <FormLabel className="font-serif">
+                                Enter Amount{" "}
+                              </FormLabel>
+                              <Input
+                                {...field}
+                                className="font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
+                                placeholder="1.0 BTC"
+                              />
+                              <FormErrorMessage>
+                                {form.errors.amount}
+                              </FormErrorMessage>
+                            </FormControl>
+                          )}
+                        </Field>
 
-                      <FormErrorMessage>
-                        {form.errors.lastName}
-                      </FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
+                        <FormErrorMessage>
+                          {form.errors.lastName}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+                </>
               )}
               {willType === "ICRC" && (
                 <>
@@ -639,10 +631,11 @@ export function WillForm() {
                           form.errors.assetType && form.touched.assetType
                         }
                       >
-                        <FormLabel>Asset</FormLabel>
+                        <FormLabel className="font-serif">Asset</FormLabel>
                         <Select
                           {...field}
                           onChange={handleAssetTypeChange}
+                          className="font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
                           placeholder="Select option"
                         >
                           <option value="ICP">$ICP</option>
@@ -661,8 +654,12 @@ export function WillForm() {
                         isRequired
                         isInvalid={form.errors.amount && form.touched.amount}
                       >
-                        <FormLabel>Enter Amount </FormLabel>
-                        <Input {...field} placeholder="1.0." />
+                        <FormLabel className="font-serif">Amount </FormLabel>
+                        <Input
+                          {...field}
+                          className="py-5 font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-md   justify-between  focus:outline-none"
+                          placeholder="1.0."
+                        />
                         <FormErrorMessage>
                           {form.errors.amount}
                         </FormErrorMessage>
@@ -677,6 +674,13 @@ export function WillForm() {
                 <Center>
                   {" "}
                   <Button
+                    isDisabled={props.isSubmitting}
+                    loadingText="Submitting..."
+                    _hover={{
+                      bg: "#4b5563",
+                      color: "white",
+                    }}
+                    className="hover:border-r-0  font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-lg shadow-indigo-500/40 rounded   justify-between px-3 py-3  focus:outline-none"
                     mt={4}
                     colorScheme="teal"
                     isLoading={props.isSubmitting}
@@ -688,13 +692,18 @@ export function WillForm() {
                 <Center>
                   {" "}
                   <Button
+                    _hover={{
+                      bg: "#4b5563",
+                      color: "white",
+                    }}
+                    className="hover:border-r-0  font-serif text-slate-500 border-b-4 border-r-4 border-slate-400 items-center shadow-lg shadow-indigo-500/40 rounded  sm:ml-3   justify-between px-3 py-3  focus:outline-none"
                     mt={4}
                     onClick={() => {
                       setOpen(false);
                       setIdentifier(null);
                     }}
                     colorScheme="teal"
-                    // isLoading={props.isSubmitting}
+                    isDisabled={props.isSubmitting}
                     type="submit"
                   >
                     Cancel
