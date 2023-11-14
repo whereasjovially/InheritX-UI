@@ -142,20 +142,20 @@ export function WillForm() {
           } else {
             const amountInInt = Number(amount);
             const amountInBigInt = humanToE8s(amountInInt)!;
-            if (amountInBigInt <= 10000) {
-              error = "Amount should be greater than 0.0001 ICP";
-            }
+            // if (amountInBigInt <= 10000) {
+            //   error = "Amount should be greater than 0.0001 ICP";
+            // }
           }
         } else if (assetType === "ckBTC") {
-          let decimalRegexckBTC = /^\d+(\.\d{1,4})?$/;
+          let decimalRegexckBTC = /^\d+(\.\d{1,6})?$/;
           if (!decimalRegexckBTC.test(amount)) {
-            error = "Value should >=0.0001 ckBTC";
+            error = "Value should >=0.000001 ckBTC";
           } else {
-            const amountInInt = Number(amount);
-            const amountInBigInt = humanToE8s(amountInInt)!;
-            if (amountInBigInt <= 1000) {
-              error = `Amount should be greater than 0.0001 ckBTC`;
-            }
+            // const amountInInt = Number(amount);
+            // const amountInBigInt = humanToE8s(amountInInt)!;
+            // if (amountInBigInt <= 1000) {
+            //   error = `Amount should be greater than 0.0001 ckBTC`;
+            // }
           }
         }
       }

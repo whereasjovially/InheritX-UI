@@ -38,7 +38,13 @@ export function useReportDeath() {
         setLoading(false);
         // setIsDied(true);
 
-        showToast(toast, "Death Report Not Verified", "", "error", "top");
+        showToast(
+          toast,
+          "Death Report Not Verified",
+          JSON.stringify(reportDeathResult),
+          "error",
+          "top"
+        );
       }
     } catch (error) {
       console.log(error);
