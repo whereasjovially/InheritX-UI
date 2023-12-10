@@ -41,7 +41,8 @@ export function useReportDeath() {
         showToast(
           toast,
           "Death Report Not Verified",
-          JSON.stringify(reportDeathResult),
+          "",
+          // JSON.stringify(reportDeathResult),
           "error",
           "top"
         );

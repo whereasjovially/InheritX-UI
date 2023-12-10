@@ -21,19 +21,19 @@ InheritX is a blockchain-based application developed on <b>Internet Computer (IC
 
 - <h3>Follow steps below</h3>
 
-1. Install dependencies
+1. Install Dependencies
 
    ```bash
    yarn install
    ```
 
-2. Start local replica
+2. Start Local Replica
 
    ```bash
     dfx start --clean
    ```
 
-3. Deploy Canisters (run the command in new terminal)
+3. Deploy Canisters
 
    ```bash
    yarn deploy:local
