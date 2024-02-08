@@ -12,7 +12,6 @@ export const createPlugLogin = () =>
         const isCreated = await isAgentCreated();
         if (isCreated) {
           const identity = (window as any).ic.plug.agent;
-          // await handleAuthenticated(identity, authProvider)
           return;
         }
 
